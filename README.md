@@ -99,9 +99,9 @@ proposto.
   conseguir montar um ambiente suficiente em tempo razoável para que em
   fim possa escrever a primeira linha de código.
 
- > O que queremos entregar é uma solução onde um iniciante copie um texto,
- cole em seu shell, execute um comando simples de bootstrap para seu
- ambiente pretendido, e comece a codificar.
+> O que queremos entregar é uma solução onde um iniciante copie um texto,
+  cole em seu shell, execute um comando simples de bootstrap para seu
+  ambiente pretendido, e comece a codificar.
 
 # EXECUTÁVEL UI
 
