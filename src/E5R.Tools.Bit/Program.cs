@@ -1,9 +1,16 @@
 ﻿using System;
-//using Microsoft.CodeAnalysis;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Collections.Generic;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Emit;
 
 namespace E5R.Tools.Bit
 {
+    public class BitCommand {}
+
     // http://www.tugberkugurlu.com/archive/compiling-c-sharp-code-into-memory-and-executing-it-with-roslyn
     // https://msdn.microsoft.com/pt-br/magazine/mt808499.aspx
     // https://github.com/dotnet/core/blob/master/Documentation/self-contained-linux-apps.md
@@ -20,25 +27,100 @@ namespace E5R.Tools.Bit
             Console.WriteLine("Running code:");
             Console.WriteLine(CSharpCodeBlock);
 
-            ExecCSharpCodeBlock(CSharpCodeBlock);
+            var assembly = GetAssemblyFromCodeBlock(CSharpCodeBlock);
+
+            Console.WriteLine("BitCommand's identified:");
+
+            foreach(var t in assembly.GetTypes().Where(t => t.IsPublic && t.IsSubclassOf(typeof(BitCommand))))
+            {
+                Console.WriteLine($"   * {t.FullName}");
+            }
             
             return 0;
         }
 
-        static void ExecCSharpCodeBlock(string code)
+        static Assembly GetAssemblyFromCodeBlock(string code)
         {
-            var node = CSharpSyntaxTree.ParseText(code);
+            var tree = CSharpSyntaxTree.ParseText(code);
+            var options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
+            var compilation = CSharpCompilation.Create(null)
+                .WithOptions(options)
+                .AddSyntaxTrees(tree)
+                .AddReferences(GetSystemReferences());
 
-            Console.ReadLine();
+            EmitResult result = null;
+            Assembly assembly = null;
+
+            using(var ms = new MemoryStream())
+            {
+                result = compilation.Emit(ms);
+
+                if(result.Success)
+                {
+                    ms.Seek(0, SeekOrigin.Begin);
+                    assembly = Assembly.Load(ms.ToArray());
+                }
+            }
+
+            if(result != null && !result.Success)
+            {
+                IEnumerable<Diagnostic> failures = result.Diagnostics.Where(diagnostic => 
+                    diagnostic.IsWarningAsError || diagnostic.Severity == DiagnosticSeverity.Error);
+
+                foreach (var failure in failures)
+                {
+                    Console.WriteLine("Error on compile!");
+                    Console.WriteLine($"  ID: {failure.Id}");
+                    Console.WriteLine($"  Message: {failure.GetMessage()}");
+                    Console.WriteLine($"  Location: {failure.Location.GetLineSpan()}");
+                    Console.WriteLine($"  Severity: {failure.Severity}");
+                }
+
+                return null;
+            }
+
+            return assembly;
+        }
+
+        static IEnumerable<MetadataReference> GetSystemReferences()
+        {
+            var bitAssemblyPath = Assembly.GetExecutingAssembly().Location;
+            var systemPath = Path.GetDirectoryName(typeof(object).Assembly.Location);
+
+            Func<string, MetadataReference> Ref = (s) => {
+                return MetadataReference.CreateFromFile(Path.Combine(systemPath, $"{s}.dll"));
+            };
+
+            return new List<MetadataReference>()
+            {
+                MetadataReference.CreateFromFile(bitAssemblyPath),
+                Ref("System"),
+                Ref("System.Collections"),
+                Ref("System.Console"),
+                Ref("System.Core"),
+                Ref("System.Linq"),
+                Ref("System.Private.CoreLib"),
+                Ref("System.Runtime")
+            };
         }
 
         static string CSharpCodeBlock = @"
-        public class Command
+        using System;
+        using E5R.Tools.Bit;
+
+        namespace MyCompany.Components.Utils
         {
-            public void PrintMessage()
+            public class Command : BitCommand
             {
-                Console.WriteLine(""Hello World from Command!"");
+                public void PrintMessage()
+                {
+                    int a = 1 + 2;
+                    Console.WriteLine($""Hello World from Command! {a}"");
+                }
             }
+
+            class OtherClass {}
+            public class PublicOtherClass {}
         }
         ";
     }
