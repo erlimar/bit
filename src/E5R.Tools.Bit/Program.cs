@@ -9,8 +9,8 @@ using Microsoft.CodeAnalysis.Emit;
 
 namespace E5R.Tools.Bit
 {
-    public class BitCommand {}
-
+    using Sdk.Bit;
+    
     // http://www.tugberkugurlu.com/archive/compiling-c-sharp-code-into-memory-and-executing-it-with-roslyn
     // https://msdn.microsoft.com/pt-br/magazine/mt808499.aspx
     // https://github.com/dotnet/core/blob/master/Documentation/self-contained-linux-apps.md
@@ -29,6 +29,11 @@ namespace E5R.Tools.Bit
 
             var assembly = GetAssemblyFromCodeBlock(CSharpCodeBlock);
 
+            if(assembly == null)
+            {
+                return 1;
+            }
+
             Console.WriteLine("BitCommand's identified:");
 
             foreach(var t in assembly.GetTypes().Where(t => t.IsPublic && t.IsSubclassOf(typeof(BitCommand))))
@@ -45,8 +50,8 @@ namespace E5R.Tools.Bit
             var options = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
             var compilation = CSharpCompilation.Create(null)
                 .WithOptions(options)
-                .AddSyntaxTrees(tree)
-                .AddReferences(GetSystemReferences());
+                .AddReferences(GetSystemReferences())
+                .AddSyntaxTrees(tree);
 
             EmitResult result = null;
             Assembly assembly = null;
@@ -84,7 +89,7 @@ namespace E5R.Tools.Bit
 
         static IEnumerable<MetadataReference> GetSystemReferences()
         {
-            var bitAssemblyPath = Assembly.GetExecutingAssembly().Location;
+            var sdkAssemblyPath = typeof(BitCommand).Assembly.Location;
             var systemPath = Path.GetDirectoryName(typeof(object).Assembly.Location);
 
             Func<string, MetadataReference> Ref = (s) => {
@@ -93,7 +98,9 @@ namespace E5R.Tools.Bit
 
             return new List<MetadataReference>()
             {
-                MetadataReference.CreateFromFile(bitAssemblyPath),
+                MetadataReference.CreateFromFile(sdkAssemblyPath),
+                Ref("mscorlib"),
+                Ref("netstandard"),
                 Ref("System"),
                 Ref("System.Collections"),
                 Ref("System.Console"),
@@ -106,7 +113,7 @@ namespace E5R.Tools.Bit
 
         static string CSharpCodeBlock = @"
         using System;
-        using E5R.Tools.Bit;
+        using E5R.Sdk.Bit;
 
         namespace MyCompany.Components.Utils
         {
