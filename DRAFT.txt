@@ -1,0 +1,11 @@
+Links:
+
+* http://www.tugberkugurlu.com/archive/compiling-c-sharp-code-into-memory-and-executing-it-with-roslyn
+* https://msdn.microsoft.com/pt-br/magazine/mt808499.aspx
+* https://github.com/dotnet/core/blob/master/Documentation/self-contained-linux-apps.md
+
+* https://gist.github.com/iamarcel/9bdc3f40d95c13f80d259b7eb2bbcabb
+* https://gist.github.com/iamarcel/8047384bfbe9941e52817cf14a79dc34
+* https://www.areilly.com/2017/04/21/command-line-argument-parsing-in-net-core-with-microsoft-extensions-commandlineutils/
+* https://msdn.microsoft.com/en-us/magazine/mt763239.aspx
+* http://fclp.github.io/fluent-command-line-parser/
