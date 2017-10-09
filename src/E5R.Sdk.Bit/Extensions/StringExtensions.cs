@@ -7,17 +7,18 @@ namespace System
 {
     using Security.Cryptography;
     using Text;
+    using System.Linq;
 
     public static class StringExtensions
     {
-
-        private const string HASH_NAME_SHA1 = "SHA1";
-        private const string HASH_NAME_SHA256 = "SHA256";
-        private const string HASH_NAME_SHA384 = "SHA384";
-        private const string HASH_NAME_SHA512 = "SHA512";
-        private const string HASH_NAME_MD5 = "MD5";
-
         #region Base64
+        private static char[] _base64Chars = new[] {
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            '+', '/'
+        };
+
         /// <summary>
         /// Encode string to Base64.
         /// </summary>
@@ -47,13 +48,57 @@ namespace System
                 return null;
             }
 
+            if (!IsBase64String(_this))
+            {
+                throw new FormatException("Invalid Base64 string");
+            }
+
             Encoding encoding = config?.DefaultEncoding ?? Encoding.Unicode;
 
             return encoding.GetString(Convert.FromBase64String(_this));
         }
         #endregion Base64
 
+        #region Base64 Utils
+        public static bool IsBase64String(this string _this)
+        {
+            if (_this.Length == 0
+                || _this.Length % 4 != 0
+                || _this.Contains(' ')
+                || _this.Contains('\t')
+                || _this.Contains('\r')
+                || _this.Contains('\n'))
+                return false;
+
+            int index = _this.Length - 1;
+
+            if (_this[index] == '=')
+            {
+                index--;
+            }
+
+            if (_this[index] == '=')
+            {
+                index--;
+            }
+
+            for (int i = 0; i <= index; i++)
+            {
+                if (!_base64Chars.Contains(_this[i]))
+                    return false;
+            }
+
+            return true;
+        }
+        #endregion Base64 Utils
+
         #region Hash
+        private const string HASH_NAME_SHA1 = "SHA1";
+        private const string HASH_NAME_SHA256 = "SHA256";
+        private const string HASH_NAME_SHA384 = "SHA384";
+        private const string HASH_NAME_SHA512 = "SHA512";
+        private const string HASH_NAME_MD5 = "MD5";
+
         /// <summary>
         /// Encode string to hash string.
         /// </summary>
