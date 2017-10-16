@@ -5,8 +5,10 @@ using System.Text;
 
 namespace E5R.Sdk.Bit.Services
 {
-    public interface IBitConfiguration
+    using Abstractions;
+
+    public class BitConfiguration : IBitConfiguration
     {
-        Encoding DefaultEncoding { get; }
+        public Encoding DefaultEncoding => Encoding.UTF8;
     }
 }

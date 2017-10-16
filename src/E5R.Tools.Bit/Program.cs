@@ -13,7 +13,7 @@ using Microsoft.CodeAnalysis.Emit;
 namespace E5R.Tools.Bit
 {
     using Sdk.Bit;
-    
+
     class Program
     {
         static int Main(string[] args)
@@ -23,18 +23,23 @@ namespace E5R.Tools.Bit
 
             var assembly = GetAssemblyFromCodeBlock(CSharpCodeBlock);
 
-            if(assembly == null)
+            if (assembly == null)
             {
                 return 1;
             }
 
+            var container = new BitContainer();
+
             Console.WriteLine("BitCommand's identified:");
 
-            foreach(var t in assembly.GetTypes().Where(t => t.IsPublic && t.IsSubclassOf(typeof(BitCommand))))
+            foreach (var t in assembly.GetTypes().Where(t => t.IsPublic && t.IsSubclassOf(typeof(BitCommand))))
             {
                 Console.WriteLine($"   * {t.FullName}");
+                container.Add(t);
+                var instance = container.GetProvider().GetService(t) as BitCommand;
+                Console.WriteLine($"   > Instance.EncodingName: {instance.GetEncodingName()}");
             }
-            
+
             return 0;
         }
 
@@ -50,20 +55,20 @@ namespace E5R.Tools.Bit
             EmitResult result = null;
             Assembly assembly = null;
 
-            using(var ms = new MemoryStream())
+            using (var ms = new MemoryStream())
             {
                 result = compilation.Emit(ms);
 
-                if(result.Success)
+                if (result.Success)
                 {
                     ms.Seek(0, SeekOrigin.Begin);
                     assembly = Assembly.Load(ms.ToArray());
                 }
             }
 
-            if(result != null && !result.Success)
+            if (result != null && !result.Success)
             {
-                IEnumerable<Diagnostic> failures = result.Diagnostics.Where(diagnostic => 
+                IEnumerable<Diagnostic> failures = result.Diagnostics.Where(diagnostic =>
                     diagnostic.IsWarningAsError || diagnostic.Severity == DiagnosticSeverity.Error);
 
                 foreach (var failure in failures)
@@ -86,7 +91,8 @@ namespace E5R.Tools.Bit
             var sdkAssemblyPath = typeof(BitCommand).Assembly.Location;
             var systemPath = Path.GetDirectoryName(typeof(object).Assembly.Location);
 
-            Func<string, MetadataReference> Ref = (s) => {
+            Func<string, MetadataReference> Ref = (s) =>
+            {
                 return MetadataReference.CreateFromFile(Path.Combine(systemPath, $"{s}.dll"));
             };
 
@@ -108,11 +114,24 @@ namespace E5R.Tools.Bit
         static string CSharpCodeBlock = @"
         using System;
         using E5R.Sdk.Bit;
+        using E5R.Sdk.Bit.Services.Abstractions;
 
         namespace MyCompany.Components.Utils
         {
             public class Command : BitCommand
             {
+                private readonly IBitConfiguration _config;
+
+                public Command(IBitConfiguration config)
+                {
+                    _config = config ?? throw new ArgumentNullException(nameof(config));
+                }
+
+                public override string GetEncodingName()
+                {
+                    return _config.DefaultEncoding.BodyName;
+                }
+
                 public void PrintMessage()
                 {
                     int a = 1 + 2;
