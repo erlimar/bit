@@ -1,38 +1,27 @@
 // Copyright (c) E5R Development Team. All rights reserved.
 // Licensed under the Apache License, Version 2.0. More license information in LICENSE.txt.
 
-using System;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace E5R.Tools.Bit
 {
-    using Sdk.Bit.Services.Abstractions;
     using Sdk.Bit.Services;
+    using Sdk.Bit.Services.Abstractions;
+    using Engine;
 
-    public class BitContainer
+    public class BitContainer : DependencyInjectionContainer
     {
-        private readonly IServiceCollection _services;
+        public BitContainer() : base(new ServiceCollection()) { }
 
-        public BitContainer()
+        protected override void AddDefaultServices(IServiceCollection services)
         {
-            _services = new ServiceCollection();
-
-            AddSdkServices();
+            services.AddSingleton<IBitConfiguration, BitConfiguration>();
         }
 
-        private void AddSdkServices()
+        protected override IServiceProvider GetProvider(IServiceCollection services)
         {
-            _services.AddSingleton<IBitConfiguration, BitConfiguration>();
-        }
-
-        public void Add(Type serviceType)
-        {
-            _services.AddTransient(serviceType);
-        }
-
-        public ServiceProvider GetProvider()
-        {
-            return _services.BuildServiceProvider();
+            return services.BuildServiceProvider();
         }
     }
 }

@@ -2,6 +2,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>E5R.Tools.Bit</RootNamespace>
+    <AssemblyName>bit</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.3.2" />
@@ -10,5 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\E5R.Sdk.Bit\E5R.Sdk.Bit.csproj" />
+    <ProjectReference Include="..\E5R.Tools.Bit.Engine\E5R.Tools.Bit.Engine.csproj" />
   </ItemGroup>
 </Project>
