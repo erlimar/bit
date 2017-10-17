@@ -129,7 +129,7 @@ nessa ferramenta. Assim pode se ter um projeto que use a ferramenta na versão
 suas peculiaridades, e ambas devem funcionar adequadamente para construir seu
 software sem causar quebras.
 
-Por isso não precisamos de um "Executável UI" e outro "Executável Host".
+Por isso nós precisamos de um "Executável UI" e outro "Executável Host".
 
 A responsabilidade do "Executável UI" é simplesmente identificar em qual
 versão se pretende executar a ferramenta e carregá-la caso ainda não esteja
@@ -141,25 +141,25 @@ ele não mude tanto com o passar do tempo, portanto uma versão inicial deve ser
 capaz de chamar inclusive um host que foi escrito "no futuro". Esse pode até
 sofrer mudanças em sua implementação, mas a sua definição essencial deve
 permanecer por muito tempo bem parecida com o que está descrita neste
-documentodesde sua primeira versão.
+documento desde sua primeira versão.
 
-Em resumo é como se pudéssemos ter um ezecutável "bit" e outros "bit-1.0.0",
-"bit-1.7.3" e "bit-2.9.4". Na linha de comando precisamos chamar somente:
+Em resumo é como se pudéssemos ter um executável `bit` e outros `bit-1.0.0`,
+`bit-1.7.3` e `bit-2.9.4`. Na linha de comando precisamos chamar somente:
 
 ```sh
 $ bit arguments...
 ```
 
-e por traz o executável "bit" (que é o Executável UI) identifica a versão mais
-recente "bit-2.9.4" e repassa a responsabilidade:
+e por traz o executável `bit` (que é o Executável UI) identifica a versão mais
+recente `bit-2.9.4` e repassa a responsabilidade:
 
 ```sh
 $ bit-2.9.4 arguments...
 ```
 poderia ainda informar uma versão específica:
 
-```
-$ bit --bit-version 1.7.3 arguments
+```sh
+$ bit @1.7.3 arguments
 ```
 
 e por traz o executável repassaria a responsabilidade:
@@ -182,7 +182,7 @@ A ferramenta em si.
 O "Executável Host" é a ferramenta em si, que terá vida própria e evoluirá
 conforme o tempo, com seu ecossistema distinto.
 			
-A responsabilidade do "Executável Hos" é decodificar os argumentos e o comando
+A responsabilidade do "Executável Host" é decodificar os argumentos e o comando
 solicitado, preparar o contexto de ambiente, e repassar a responsabilidade
 de execução da tarefa ao comando em si.
 
@@ -194,13 +194,13 @@ necessário para que os comandos possam cumprir o papel de ser autosuficiente.
 Para isso fornece funcionalidades como, "compactação" e "descompactação" de
 conteúdo, "download", "configuração", e vários outros utilitários mais básicos.
 Com isso o comando em si, fica com a responsabilidade de atender a necessidade
-da tarefa, sem se preocupar com "por menores".
+da tarefa, sem se preocupar com os "por menores".
 
 # COMANDOS DO DESENVOLVEDOR/BUILD/CI
 
 ## SINOPSE
 
-Comando que executa uma única tarefa automatizada distinta.
+Comando que executa uma única tarefa automatizada distinta. Seja em uma máquina de desenvolvimento ou de build em uma integração contínua.
 
 ## DETALHES
 
@@ -211,12 +211,12 @@ que depende única e exclusivamente do contexto previamente fornecido pelo
 			
 Esse comando não tem muita liberdade de chamar dependências de bibliotecas de
 terceiros (talvez isso mude com o tempo), mas deve trabalhar na limitação do
-contexto estabelecido. Isso a princípio parece ser um "contra", mas é na verdade
+contexto estabelecido. Isso a princípio parece ser um ponto "contra", mas é na verdade
 uma forma de atender a premissa 1 e 4 (mínimo e auto-suficiente), porque as
 tarefas de build devem ser bastante específicas e executadas o mais rápido
 possível, e se não puder ser codificada em um comando, talvez haja uma
 responsabilidade demasiada sobre o mesmo. Nesse momento já podemos enxergar essa
-limitação de contexto como um ponto "positivo" e não mais um "contra".
+limitação de contexto como um ponto "positivo" e não mais um "contra", porque limitamos a construção de comandos curtos.
 			
 Os comandos podem chamar subcomandos, que na verdade são somente outros comandos
 conhecidos que são delegados por um comando e não diretamente pelo host (na
@@ -236,8 +236,8 @@ resolver o problema. Apresentar a artimanha dos arquivos TXT atualizados pelo
 executor "e5r-dev.js" e inclusos blocos de script nos arquivos de perfil
 (".profile", ".bashrc", ".zhrc");
 
-  a) `$ dev exec "command"` para não precisar usar atualização de PATH
+a) `$ dev exec "command"` para não precisar usar atualização de PATH
 
-2. Trabalhos ascíncronos com JavaScript (node) versus dependências e tamanho
+2. Trabalhos ascíncronos com JavaScript (nodejs) versus dependências e tamanho
 do .NET Core como engine. JavaScript x C#;
 
