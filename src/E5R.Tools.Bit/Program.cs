@@ -12,7 +12,7 @@ using Microsoft.CodeAnalysis.Emit;
 
 namespace E5R.Tools.Bit
 {
-    using Sdk.Bit;
+    using Sdk.Bit.Command;
 
     class Program
     {
@@ -32,11 +32,11 @@ namespace E5R.Tools.Bit
 
             Console.WriteLine("BitCommand's identified:");
 
-            foreach (var t in assembly.GetTypes().Where(t => t.IsPublic && t.IsSubclassOf(typeof(BitCommand))))
+            foreach (var t in assembly.GetTypes().Where(t => typeof(IBitCommand).IsAssignableFrom(t)))
             {
                 Console.WriteLine($"   * {t.FullName}");
                 container.Add(t);
-                var instance = container.GetProvider().GetService(t) as BitCommand;
+                var instance = container.GetProvider().GetService(t) as IBitCommand;
                 Console.WriteLine($"   > Instance.EncodingName: {instance.GetEncodingName()}");
             }
 
@@ -88,7 +88,7 @@ namespace E5R.Tools.Bit
 
         static IEnumerable<MetadataReference> GetSystemReferences()
         {
-            var sdkAssemblyPath = typeof(BitCommand).Assembly.Location;
+            var sdkAssemblyPath = typeof(IBitCommand).Assembly.Location;
             var systemPath = Path.GetDirectoryName(typeof(object).Assembly.Location);
 
             Func<string, MetadataReference> Ref = (s) =>
@@ -113,12 +113,12 @@ namespace E5R.Tools.Bit
 
         static string CSharpCodeBlock = @"
         using System;
-        using E5R.Sdk.Bit;
+        using E5R.Sdk.Bit.Command;
         using E5R.Sdk.Bit.Services.Abstractions;
 
         namespace MyCompany.Components.Utils
         {
-            public class Command : BitCommand
+            public class Command : IBitCommand
             {
                 private readonly IBitConfiguration _config;
 
@@ -127,15 +127,9 @@ namespace E5R.Tools.Bit
                     _config = config ?? throw new ArgumentNullException(nameof(config));
                 }
 
-                public override string GetEncodingName()
+                public string GetEncodingName()
                 {
                     return _config.DefaultEncoding.BodyName;
-                }
-
-                public void PrintMessage()
-                {
-                    int a = 1 + 2;
-                    Console.WriteLine($""Hello World from Command! {a}"");
                 }
             }
 

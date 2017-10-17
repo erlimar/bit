@@ -3,13 +3,10 @@
 
 using System;
 
-namespace E5R.Sdk.Bit
+namespace E5R.Sdk.Bit.Command
 {
-    public class BitCommand
+    public interface IBitCommand
     {
-        public virtual string GetEncodingName()
-        {
-            throw new NotImplementedException();
-        }
+        string GetEncodingName();
     }
 }
