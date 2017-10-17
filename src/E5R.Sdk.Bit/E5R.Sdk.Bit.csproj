@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>E5R.Sdk.Bit</RootNamespace>
+    <AssemblyName>E5R.Sdk.Bit</AssemblyName>
   </PropertyGroup>
 
 </Project>

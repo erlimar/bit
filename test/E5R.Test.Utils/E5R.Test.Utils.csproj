@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <AssemblyName>E5R.Test.Utils</AssemblyName>    
+    <RootNamespace>E5R.Test.Utils</RootNamespace>
   </PropertyGroup>
 
 </Project>
