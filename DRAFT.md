@@ -145,7 +145,7 @@ Esse terá a versão `0.1.1-dev` NÃO contendo a entrada de comando `my-other-co
 
   No exemplo acima nós temos na versão `0.1.1-dev` uma lib chamada `utils`, e na versão `0.1.1` duas libs chamadas `utils` e `crypto`. No final são duas libs, `utils` que tem duas versões (`0.1.1-dev` e `0.1.1`), e `crypto` com uma única vesão `0.1.1`. O objetivo das libs é fornecer serviços que podem ser usados por outros comandos. Então veja o comando abaixo:
 
-  ```cs
+  ```csharp
 
   using E5R.Sdk.Services;
 
@@ -156,8 +156,9 @@ Esse terá a versão `0.1.1-dev` NÃO contendo a entrada de comando `my-other-co
       string Encrypt(string original);
   }
 
-  [Require("unique-name://crypto@0.1.1", nameof(ICrypto))]
-  [Require("utils", [nameof(IStringUtils), nameof(IByteUtils)])]
+  [Require("lib://crypto@unique-name/~0.1.1", nameof(ICrypto))]
+  [Require("lib://utils", nameof(IStringUtils), nameof(IByteUtils))]
+  [Require("lib://utils", "IStringUtils", "IByteUtils")]
   public class MyThirdPartyCommand
   {
       private readonly IBitOutput _output;
