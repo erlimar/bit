@@ -9,6 +9,7 @@ Links:
 * https://www.areilly.com/2017/04/21/command-line-argument-parsing-in-net-core-with-microsoft-extensions-commandlineutils/
 * https://msdn.microsoft.com/en-us/magazine/mt763239.aspx
 * http://fclp.github.io/fluent-command-line-parser/
+* https://github.com/adamreeve/semver.net
 
 Notas sobre repositórios:
 
@@ -156,8 +157,7 @@ Esse terá a versão `0.1.1-dev` NÃO contendo a entrada de comando `my-other-co
       string Encrypt(string original);
   }
 
-  [Require("lib://crypto@unique-name/~0.1.1", nameof(ICrypto))]
-  [Require("lib://utils", nameof(IStringUtils), nameof(IByteUtils))]
+  [Require("lib://crypto@unique-name/~1.2.1", nameof(ICrypto))]
   [Require("lib://utils", "IStringUtils", "IByteUtils")]
   public class MyThirdPartyCommand
   {
@@ -188,7 +188,7 @@ Esse terá a versão `0.1.1-dev` NÃO contendo a entrada de comando `my-other-co
   Nesse exemplo nós temos um comando `MyThirdPartyCommand` que se utiliza de serviços que estão
   em bibliotecas de terceiros (no caso dele mesmo, mas poderia ser de qualquer outro repositório).
 
-  A assinatura `Require("unique-name://crypto@0.1.1", nameof(ICrypto))` diz para o engine que os
-  tipos que implementam o serviço `ICrypto` na biblioteca `crypto`, versão `0.1.1` e que está no repositório `unique-name` deve ser registrado e injetado nesse comando. Veja o mesmo sendo injetado no construtor, junto com outros serviços (`IBitoutput`) nativos do próprio Sdk.
+  A assinatura `[Require("lib://crypto@unique-name/~1.2.1", nameof(ICrypto))]` diz para o engine que os
+  tipos que implementam o serviço `ICrypto` na biblioteca `crypto`, versão `>=1.2.1 < 1.3.0` e que está no repositório `unique-name` deve ser registrado e injetado nesse comando. Veja o mesmo sendo injetado no construtor, junto com outros serviços (`IBitoutput`) nativos do próprio Sdk.
 
-  Ainda temos a assinatura `Require("utils", [nameof(IStringUtils), nameof(IByteUtils)])` que não especifica nem um nome de repositório, nem uma versão. Isso indica que os serviços `IStringUtils` e `IByteUtils` que estão sendo solicitados estão no mesmo repositório do comando que está em execução, e também na mesma versão.
+  Ainda temos a assinatura `[Require("lib://utils", "IStringUtils", "IByteUtils")]` que não especifica nem um nome de repositório, nem uma versão. Isso indica que os serviços `IStringUtils` e `IByteUtils` que estão sendo solicitados estão no mesmo repositório do comando que está em execução, e também na mesma versão.
