@@ -151,7 +151,7 @@ Esse terá a versão `0.1.1-dev` NÃO contendo a entrada de comando `my-other-co
   using E5R.Sdk.Services;
 
   [AssemblyNeutral] interface IStringUtils {}
-  [AssemblyNeutral] interface ByteUtils {}
+  [AssemblyNeutral] interface IByteUtils {}
   [AssemblyNeutral] interface ICrypto
   {
       string Encrypt(string original);
