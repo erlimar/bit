@@ -31,7 +31,7 @@ namespace E5R.Tools.Bit
                 Console.WriteLine($"   * {t.FullName}");
                 engine.RegisterType(t);
                 var instance = engine.ResolveType<IBitCommand>(t);
-                Console.WriteLine($"   > Instance.EncodingName: {instance.GetEncodingName()}");
+                var result = instance.Main(null);
             }
 
             return 0;
