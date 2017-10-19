@@ -25,7 +25,7 @@ namespace E5R.Tools.Bit.Engine
 
         private IEnumerable<MetadataReference> GetSystemReferences()
         {
-            var sdkAssemblyPath = typeof(IBitCommand).Assembly.Location;
+            var sdkAssemblyPath = typeof(BitCommand).Assembly.Location;
             var clrPath = Path.GetDirectoryName(typeof(object).Assembly.Location);
 
             return new List<MetadataReference>()

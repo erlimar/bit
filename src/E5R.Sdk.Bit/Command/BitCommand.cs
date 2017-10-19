@@ -1,12 +1,15 @@
 ﻿// Copyright (c) E5R Development Team. All rights reserved.
 // Licensed under the Apache License, Version 2.0. More license information in LICENSE.txt.
 
+using System;
 using System.Threading.Tasks;
 
 namespace E5R.Sdk.Bit.Command
 {
-    public interface IBitCommand
+    using Services.Abstractions;
+
+    public class BitCommand : IBitCommand
     {
-        Task<BitCommandResult> Main(BitCommandContext context);
+        public virtual Task<BitCommandResult> Main(BitCommandContext context) => throw new NotImplementedException();
     }
 }

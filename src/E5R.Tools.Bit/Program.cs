@@ -7,7 +7,7 @@ using System.Linq;
 namespace E5R.Tools.Bit
 {
     using Engine;
-    using Sdk.Bit.Command;
+    using Sdk.Bit.Services.Abstractions;
 
     class Program
     {
