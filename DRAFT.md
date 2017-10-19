@@ -53,7 +53,7 @@
    Ex:
    ```json
    {
-       "name": "unique-name",
+       "repoid": "unique-name",
        "description": "Repository description",
        "license": {
            "type": "MIT",
