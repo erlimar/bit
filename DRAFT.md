@@ -25,12 +25,14 @@
 * A estrutura do diretório é a seguinte:
  - Considerando a raiz de um diretório como "/", temos:
 
+```
   /hash.txt
   /index.json
   /history.json
+```
 
- > /hash.txt
-   ---------
+/hash.txt
+---------
    Este arquivo tem uma linha com o hash para cada arquivo do repositório.
    No padrão SHA256 Ex:
    
@@ -45,8 +47,8 @@
    baixado para verificar se algo mudou no repositório, se nada mudou, o repositório
    está atualizado.
 
- > /index.json
-   -----------
+/index.json
+-----------
    Este arquivo contém as informações do repositório:
    Ex:
    ```json
@@ -78,8 +80,8 @@
    }
    ```
 
-> /history.json
-  -------------
+/history.json
+-------------
   Este arquivo contém o histórico de versões com seus respectivos arquivos disponíveis
   em cada uma das versões.
   "O número da versão deve obedecer o padrão SEMVER.
@@ -113,7 +115,7 @@
   }
   ```
 
-> Como os arquivos são identificados?
+## Como os arquivos são identificados?
 
 Considerando os arquivos `index.json` e `history.json` exemplificados acima. Podemos deduzir o seguinte:
 
@@ -142,8 +144,8 @@ $ bit my-other-command@0.1.1-dev
 Esse terá a versão `0.1.1-dev` NÃO contendo a entrada de comando `my-other-command` na lista `cmd`. O quee seria traduzido para o arquivo `MyOtherCommand.cs` no path `~/files/0.1.1-dev/commands/MyOtherCommand.cs`. Mas como a entrada não existe. O comando não existe e não será executado.
 
 
-> Sobre as libs
-  -------------
+Sobre as libs
+-------------
   O propósito das libs é permitir a colaboração entre equipes em um ecossistema. Uma vez que podemos desenvolver somente libs que podem ser utilizadas por diversos comandos.
 
   Aqui nós, além de informarmos as versões dos arquivos, também precisaremos informar o nome dos repositórios (arquivo `index.json`).
