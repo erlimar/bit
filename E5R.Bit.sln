@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E5R.Sdk.Bit.Test", "test\E5
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E5R.Tools.Bit.Engine", "src\E5R.Tools.Bit.Engine\E5R.Tools.Bit.Engine.csproj", "{902E34B0-D801-4980-A230-072CC8C86159}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E5R.Test.Utils", "test\E5R.Test.Utils\E5R.Test.Utils.csproj", "{F9997E8E-CF8A-414A-9F7A-77D1E87CCEEB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E5R.Test.Commons", "test\E5R.Test.Commons\E5R.Test.Commons.csproj", "{F9997E8E-CF8A-414A-9F7A-77D1E87CCEEB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E5R.Tools.Bit.Engine.Test", "test\E5R.Tools.Bit.Engine.Test\E5R.Tools.Bit.Engine.Test.csproj", "{320C754D-934F-4527-BC4A-245B575E52DA}"
 EndProject

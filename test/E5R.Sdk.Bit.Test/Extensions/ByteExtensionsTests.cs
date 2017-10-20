@@ -4,9 +4,9 @@
 using System;
 using Xunit;
 
-namespace E5R.Sdk.Bit.Test
+namespace E5R.Sdk.Bit.Test.Extensions
 {
-    using _ = E5R.Test.Utils.TraitConstants;
+    using _ = E5R.Test.Commons.TraitConstants;
 
     [Trait(_.MODULE, "E5R.Sdk.Bit")]
     [Trait(_.COMPONENT, nameof(ByteExtensions))]

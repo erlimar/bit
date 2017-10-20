@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\E5R.Sdk.Bit\E5R.Sdk.Bit.csproj" />
-    <ProjectReference Include="..\E5R.Test.Utils\E5R.Test.Utils.csproj" />
+    <ProjectReference Include="..\E5R.Test.Commons\E5R.Test.Commons.csproj" />
   </ItemGroup>
 
 </Project>
