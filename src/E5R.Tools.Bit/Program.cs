@@ -3,65 +3,82 @@
 
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace E5R.Tools.Bit
 {
     using Engine;
+    using Sdk.Bit.Command;
     using Sdk.Bit.Services.Abstractions;
 
-    class Program
+    internal class Program
     {
-        static int Main(string[] args)
+        private readonly BitEngine _engine;
+        private readonly IBitEnvironment _env;
+
+        internal Program(IBitEnvironment env, DependencyInjectionContainer container)
         {
-            Console.WriteLine("Running code:");
-            Console.WriteLine(CSharpCodeBlock);
-
-            var engine = new BitEngine(new BitContainer());
-            var assembly = engine.CompileToAssembly(CSharpCodeBlock);
-
-            if (assembly == null)
+            if (container == null)
             {
-                return 1;
+                throw new ArgumentNullException(nameof(container));
             }
 
-            Console.WriteLine("BitCommand's identified:");
-
-            foreach (var t in assembly.GetTypes().Where(t => typeof(IBitCommand).IsAssignableFrom(t)))
-            {
-                Console.WriteLine($"   * {t.FullName}");
-                engine.RegisterType(t);
-                var instance = engine.ResolveType<IBitCommand>(t);
-                var result = instance.Main(null);
-            }
-
-            return 0;
+            _env = env ?? throw new ArgumentNullException(nameof(env));
+            _engine = new BitEngine(container);
         }
 
-        static string CSharpCodeBlock = @"
-        using System;
-        using E5R.Sdk.Bit.Command;
-        using E5R.Sdk.Bit.Services.Abstractions;
-
-        namespace MyCompany.Components.Utils
+        internal async Task<BitResult> Run()
         {
-            public class Command : IBitCommand
+            return new BitResult
             {
-                private readonly IBitConfiguration _config;
+                ResultCode = -1
+            };
+        }
 
-                public Command(IBitConfiguration config)
+        internal static int Main()
+        {
+            // TODO: Migrate to Main async method with C# 7.1
+
+            BitResult result = null;
+
+            try
+            {
+                var env = new BitEnvironment();
+                var container = new BitContainer();
+                var program = new Program(env, container);
+                var task = program.Run();
+
+                task.Wait();
+
+                if (!task.IsCompletedSuccessfully)
                 {
-                    _config = config ?? throw new ArgumentNullException(nameof(config));
+                    throw task.Exception;
                 }
 
-                public string GetEncodingName()
+                result = task.Result;
+            }
+            catch (Exception exception)
+            {
+                result = new BitResult
                 {
-                    return _config.DefaultEncoding.BodyName;
+                    ResultCode = exception.HResult,
+                    ResultMessage = exception.Message
+                };
+            }
+            finally
+            {
+                if (result == null)
+                {
+                    result = new BitResult
+                    {
+                        ResultCode = -1,
+                        ResultMessage = "Fatal unespected exception."
+                    };
                 }
             }
 
-            class OtherClass {}
-            public class PublicOtherClass {}
+            // TODO: Print messages
+            return result.ResultCode;
         }
-        ";
     }
 }
