@@ -3,5 +3,5 @@
 
 namespace E5R.Sdk.Bit.Command
 {
-    public class BitCommandContext { }
+    public class BitContext { }
 }

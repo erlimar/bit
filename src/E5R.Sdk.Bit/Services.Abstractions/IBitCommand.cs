@@ -9,6 +9,6 @@ namespace E5R.Sdk.Bit.Services.Abstractions
 
     public interface IBitCommand
     {
-        Task<BitCommandResult> Main(BitCommandContext context);
+        Task<BitResult> Main(BitContext context);
     }
 }

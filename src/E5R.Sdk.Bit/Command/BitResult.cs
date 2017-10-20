@@ -3,5 +3,9 @@
 
 namespace E5R.Sdk.Bit.Command
 {
-    public class BitCommandResult { }
+    public class BitResult
+    {
+        public int ResultCode { get; set; }
+        public string ResultMessage { get; set; }
+    }
 }

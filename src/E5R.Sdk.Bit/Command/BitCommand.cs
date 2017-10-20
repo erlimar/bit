@@ -10,6 +10,6 @@ namespace E5R.Sdk.Bit.Command
 
     public class BitCommand : IBitCommand
     {
-        public virtual Task<BitCommandResult> Main(BitCommandContext context) => throw new NotImplementedException();
+        public virtual Task<BitResult> Main(BitContext context) => throw new NotImplementedException();
     }
 }
