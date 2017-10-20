@@ -32,6 +32,17 @@ namespace E5R.Tools.Bit.Engine.DI
             _services.AddTransient(serviceType);
         }
 
+        internal void AddSingleton<T>(T serviceType)
+            where T : class
+        {
+            if (serviceType == null)
+            {
+                throw new ArgumentNullException(nameof(serviceType));
+            }
+
+            _services.AddSingleton<T>(serviceType);
+        }
+
         public static DependencyInjectionContainer BuildDefault()
         {
             return new BitEngineContainer();

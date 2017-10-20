@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. More license information in LICENSE.txt.
 
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace E5R.Tools.Bit.Engine.DI
@@ -18,6 +19,13 @@ namespace E5R.Tools.Bit.Engine.DI
         protected override void AddDefaultServices(IServiceCollection services)
         {
             services.AddSingleton<IBitConfiguration, BitConfiguration>();
+            services.AddSingleton<IBitDiscovery, BitDiscovery>();
+            services.AddSingleton<IBitEnvironment, BitEnvironment>();
+
+            services.AddLogging(builder =>
+            {
+                builder.AddConsole();
+            });
         }
 
         protected override IServiceProvider GetProvider(IServiceCollection services)
