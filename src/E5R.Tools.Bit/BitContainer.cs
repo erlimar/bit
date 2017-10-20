@@ -8,7 +8,8 @@ namespace E5R.Tools.Bit
 {
     using Sdk.Bit.Services;
     using Sdk.Bit.Services.Abstractions;
-    using Engine;
+    using Engine.DI;
+    using Engine.Services;
 
     public class BitContainer : DependencyInjectionContainer
     {

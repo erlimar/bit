@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace E5R.Tools.Bit
 {
-    using Engine;
     using Sdk.Bit.Command;
     using Sdk.Bit.Services.Abstractions;
+    using Engine;
+    using Engine.DI;
 
     internal class Program
     {

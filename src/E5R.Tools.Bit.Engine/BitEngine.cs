@@ -13,6 +13,7 @@ using Microsoft.CodeAnalysis.Emit;
 namespace E5R.Tools.Bit.Engine
 {
     using Sdk.Bit.Command;
+    using Engine.DI;
 
     public class BitEngine
     {

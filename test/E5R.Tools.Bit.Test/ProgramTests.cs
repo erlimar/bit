@@ -9,6 +9,7 @@ using Moq;
 namespace E5R.Tools.Bit.Test
 {
     using Engine;
+    using Engine.DI;
     using Sdk.Bit.Services.Abstractions;
     using _ = E5R.Test.Commons.TraitConstants;
 

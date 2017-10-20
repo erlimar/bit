@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace E5R.Tools.Bit.Engine.Test
 {
+    using Engine.DI;
     using _ = E5R.Test.Commons.TraitConstants;
 
     [Trait(_.MODULE, "E5R.Tools.Bit.Engine")]

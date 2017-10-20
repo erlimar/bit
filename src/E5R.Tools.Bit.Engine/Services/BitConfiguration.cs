@@ -3,9 +3,9 @@
 
 using System.Text;
 
-namespace E5R.Sdk.Bit.Services
+namespace E5R.Tools.Bit.Engine.Services
 {
-    using Abstractions;
+    using Sdk.Bit.Services.Abstractions;
 
     public class BitConfiguration : IBitConfiguration
     {

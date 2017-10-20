@@ -4,7 +4,7 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace E5R.Tools.Bit.Engine
+namespace E5R.Tools.Bit.Engine.DI
 {
     public class DependencyInjectionContainer
     {
