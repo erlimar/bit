@@ -23,7 +23,7 @@ namespace E5R.Tools.Bit
                 throw new ArgumentNullException(nameof(container));
             }
 
-            _engine = new BitEngine(container);
+            _engine = BitEngine.Build(container);
         }
 
         internal async Task<BitResult> Run()

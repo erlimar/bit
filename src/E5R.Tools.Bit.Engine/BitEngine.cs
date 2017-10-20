@@ -97,5 +97,10 @@ namespace E5R.Tools.Bit.Engine
 
         public T ResolveType<T>(Type type) where T : class
             => _container.GetProvider().GetService(type) as T;
+
+        public static BitEngine Build(DependencyInjectionContainer container)
+        {
+            return new BitEngine(container);
+        }
     }
 }
