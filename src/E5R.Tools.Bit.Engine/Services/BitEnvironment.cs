@@ -3,9 +3,10 @@
 
 using System;
 
-namespace E5R.Tools.Bit
+namespace E5R.Tools.Bit.Engine.Services
 {
     using Sdk.Bit.Services.Abstractions;
+    
     public class BitEnvironment : IBitEnvironment
     {
         public string[] GetCommandLineArgs()

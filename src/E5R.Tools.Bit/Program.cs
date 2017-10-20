@@ -15,16 +15,14 @@ namespace E5R.Tools.Bit
     internal class Program
     {
         private readonly BitEngine _engine;
-        private readonly IBitEnvironment _env;
 
-        internal Program(IBitEnvironment env, DependencyInjectionContainer container)
+        internal Program(DependencyInjectionContainer container)
         {
             if (container == null)
             {
                 throw new ArgumentNullException(nameof(container));
             }
 
-            _env = env ?? throw new ArgumentNullException(nameof(env));
             _engine = new BitEngine(container);
         }
 
@@ -44,9 +42,8 @@ namespace E5R.Tools.Bit
 
             try
             {
-                var env = new BitEnvironment();
-                var container = new BitContainer();
-                var program = new Program(env, container);
+                var container = DependencyInjectionContainer.BuildDefault();
+                var program = new Program(container);
                 var task = program.Run();
 
                 task.Wait();

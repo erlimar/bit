@@ -31,5 +31,10 @@ namespace E5R.Tools.Bit.Engine.DI
 
             _services.AddTransient(serviceType);
         }
+
+        public static DependencyInjectionContainer BuildDefault()
+        {
+            return new BitEngineContainer();
+        }
     }
 }

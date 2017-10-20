@@ -4,16 +4,16 @@
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace E5R.Tools.Bit
+namespace E5R.Tools.Bit.Engine.DI
 {
     using Sdk.Bit.Services;
     using Sdk.Bit.Services.Abstractions;
     using Engine.DI;
     using Engine.Services;
 
-    public class BitContainer : DependencyInjectionContainer
+    public class BitEngineContainer : DependencyInjectionContainer
     {
-        public BitContainer() : base(new ServiceCollection()) { }
+        public BitEngineContainer() : base(new ServiceCollection()) { }
 
         protected override void AddDefaultServices(IServiceCollection services)
         {
