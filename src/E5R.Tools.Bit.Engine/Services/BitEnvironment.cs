@@ -9,9 +9,6 @@ namespace E5R.Tools.Bit.Engine.Services
     
     public class BitEnvironment : IBitEnvironment
     {
-        public string[] GetCommandLineArgs()
-        {
-            return Environment.GetCommandLineArgs();
-        }
+        public string[] GetCommandLineArgs() => Environment.GetCommandLineArgs();
     }
 }

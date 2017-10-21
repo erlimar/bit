@@ -1,4 +1,4 @@
-﻿// Copyright (c) E5R Development Team. All rights reserved.
+// Copyright (c) E5R Development Team. All rights reserved.
 // Licensed under the Apache License, Version 2.0. More license information in LICENSE.txt.
 
 using System;
@@ -21,6 +21,7 @@ namespace E5R.Tools.Bit.Engine.DI
         protected virtual IServiceProvider GetProvider(IServiceCollection services) => throw new NotImplementedException();
 
         public IServiceProvider GetProvider() => GetProvider(_services);
+        public static DependencyInjectionContainer BuildDefault() => new BitEngineContainer();
 
         public void Add(Type serviceType)
         {
@@ -41,11 +42,6 @@ namespace E5R.Tools.Bit.Engine.DI
             }
 
             _services.AddSingleton<T>(serviceType);
-        }
-
-        public static DependencyInjectionContainer BuildDefault()
-        {
-            return new BitEngineContainer();
         }
     }
 }

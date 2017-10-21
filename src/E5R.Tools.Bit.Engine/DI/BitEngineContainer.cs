@@ -7,10 +7,9 @@ using System;
 
 namespace E5R.Tools.Bit.Engine.DI
 {
-    using Sdk.Bit.Services;
     using Sdk.Bit.Services.Abstractions;
-    using Engine.DI;
     using Engine.Services;
+    using Engine.Compilers;
 
     public class BitEngineContainer : DependencyInjectionContainer
     {
@@ -21,6 +20,7 @@ namespace E5R.Tools.Bit.Engine.DI
             services.AddSingleton<IBitConfiguration, BitConfiguration>();
             services.AddSingleton<IBitDiscovery, BitDiscovery>();
             services.AddSingleton<IBitEnvironment, BitEnvironment>();
+            services.AddSingleton<IBitCompiler, CSharpCompiler>();
 
             services.AddLogging(builder =>
             {
@@ -28,9 +28,6 @@ namespace E5R.Tools.Bit.Engine.DI
             });
         }
 
-        protected override IServiceProvider GetProvider(IServiceCollection services)
-        {
-            return services.BuildServiceProvider();
-        }
+        protected override IServiceProvider GetProvider(IServiceCollection services) => services.BuildServiceProvider();
     }
 }

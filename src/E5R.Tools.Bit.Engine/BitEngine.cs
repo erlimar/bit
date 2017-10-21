@@ -2,17 +2,9 @@
 // Licensed under the Apache License, Version 2.0. More license information in LICENSE.txt.
 
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Emit;
 
 namespace E5R.Tools.Bit.Engine
 {
-    using Sdk.Bit.Command;
     using Engine.DI;
 
     public class BitEngine
@@ -33,7 +25,7 @@ namespace E5R.Tools.Bit.Engine
         {
             var engine = new BitEngine(container);
 
-            container.AddSingleton<BitEngine>(engine);
+            container.AddSingleton(engine);
 
             return engine;
         }

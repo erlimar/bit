@@ -1,4 +1,4 @@
-﻿// Copyright (c) E5R Development Team. All rights reserved.
+// Copyright (c) E5R Development Team. All rights reserved.
 // Licensed under the Apache License, Version 2.0. More license information in LICENSE.txt.
 
 using System;
@@ -18,12 +18,7 @@ namespace E5R.Tools.Bit
 
         internal Program(DependencyInjectionContainer container)
         {
-            if (container == null)
-            {
-                throw new ArgumentNullException(nameof(container));
-            }
-
-            _engine = BitEngine.Build(container);
+            _engine = BitEngine.Build(container ?? throw new ArgumentNullException(nameof(container)));
         }
 
         internal async Task<BitResult> Run()
@@ -34,7 +29,7 @@ namespace E5R.Tools.Bit
             };
         }
 
-        internal static int Main()
+        static int Main()
         {
             // TODO: Migrate to Main async method with C# 7.1
 

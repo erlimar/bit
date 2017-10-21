@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
 
-namespace E5R.Tools.Bit.Engine.Compiler
+namespace E5R.Tools.Bit.Engine.Compilers
 {
     using Sdk.Bit.Command;
 
