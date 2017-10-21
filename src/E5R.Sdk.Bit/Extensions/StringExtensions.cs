@@ -146,7 +146,7 @@ namespace System
         /// <returns>Hash string</returns>
         /// <exception cref="ArgumentNullException" />If <param name="hashName" /> is null or empty</exception>
         /// <exception cref="NotSupportedException" />If <param name="hashName" /> is invalid.</exception>
-        public static string ToHashSHA1(this string _this, IBitConfiguration config = null) => ToHash(_this, HASH_NAME_SHA1, config);
+        public static string Sha1(this string _this, IBitConfiguration config = null) => ToHash(_this, HASH_NAME_SHA1, config);
 
         /// <summary>
         /// Encode string to SHA256 hash string.
@@ -155,7 +155,7 @@ namespace System
         /// <returns>Hash string</returns>
         /// <exception cref="ArgumentNullException" />If <param name="hashName" /> is null or empty</exception>
         /// <exception cref="NotSupportedException" />If <param name="hashName" /> is invalid.</exception>
-        public static string ToHashSHA256(this string _this, IBitConfiguration config = null) => ToHash(_this, HASH_NAME_SHA256, config);
+        public static string Sha256(this string _this, IBitConfiguration config = null) => ToHash(_this, HASH_NAME_SHA256, config);
 
         /// <summary>
         /// Encode string to SHA384 hash string.
@@ -164,7 +164,7 @@ namespace System
         /// <returns>Hash string</returns>
         /// <exception cref="ArgumentNullException" />If <param name="hashName" /> is null or empty</exception>
         /// <exception cref="NotSupportedException" />If <param name="hashName" /> is invalid.</exception>
-        public static string ToHashSHA384(this string _this, IBitConfiguration config = null) => ToHash(_this, HASH_NAME_SHA384, config);
+        public static string Sha384(this string _this, IBitConfiguration config = null) => ToHash(_this, HASH_NAME_SHA384, config);
 
         /// <summary>
         /// Encode string to SHA512 hash string.
@@ -173,7 +173,7 @@ namespace System
         /// <returns>Hash string</returns>
         /// <exception cref="ArgumentNullException" />If <param name="hashName" /> is null or empty</exception>
         /// <exception cref="NotSupportedException" />If <param name="hashName" /> is invalid.</exception>
-        public static string ToHashSHA512(this string _this, IBitConfiguration config = null) => ToHash(_this, HASH_NAME_SHA512, config);
+        public static string Sha512(this string _this, IBitConfiguration config = null) => ToHash(_this, HASH_NAME_SHA512, config);
 
         /// <summary>
         /// Encode string to MD5 hash string.
@@ -182,7 +182,7 @@ namespace System
         /// <returns>Hash string</returns>
         /// <exception cref="ArgumentNullException" />If <param name="hashName" /> is null or empty</exception>
         /// <exception cref="NotSupportedException" />If <param name="hashName" /> is invalid.</exception>
-        public static string ToHashMD5(this string _this, IBitConfiguration config = null) => ToHash(_this, HASH_NAME_MD5, config);
+        public static string Md5(this string _this, IBitConfiguration config = null) => ToHash(_this, HASH_NAME_MD5, config);
 
         /// <summary>
         /// Checks raw string combination with hash.
@@ -218,7 +218,7 @@ namespace System
         /// <returns><see cref="true" /> if combine, and <see cref="false" /> if not combine or raw string is null or empty.</returns>
         /// <exception cref="ArgumentNullException" />If <param name="hashName" /> is null or empty</exception>
         /// <exception cref="NotSupportedException" />If <param name="hashName" /> is invalid.</exception>
-        public static bool CheckHashSHA1(this string _this, string hashValue, IBitConfiguration config = null) => CheckHash(_this, hashValue, HASH_NAME_SHA1, config);
+        public static bool Sha1Check(this string _this, string hashValue, IBitConfiguration config = null) => CheckHash(_this, hashValue, HASH_NAME_SHA1, config);
 
         /// <summary>
         /// Checks raw string combination with SHA256 hash.
@@ -228,7 +228,7 @@ namespace System
         /// <returns><see cref="true" /> if combine, and <see cref="false" /> if not combine or raw string is null or empty.</returns>
         /// <exception cref="ArgumentNullException" />If <param name="hashName" /> is null or empty</exception>
         /// <exception cref="NotSupportedException" />If <param name="hashName" /> is invalid.</exception>
-        public static bool CheckHashSHA256(this string _this, string hashValue, IBitConfiguration config = null) => CheckHash(_this, hashValue, HASH_NAME_SHA256, config);
+        public static bool Sha256Check(this string _this, string hashValue, IBitConfiguration config = null) => CheckHash(_this, hashValue, HASH_NAME_SHA256, config);
 
         /// <summary>
         /// Checks raw string combination with SHA384 hash.
@@ -238,7 +238,7 @@ namespace System
         /// <returns><see cref="true" /> if combine, and <see cref="false" /> if not combine or raw string is null or empty.</returns>
         /// <exception cref="ArgumentNullException" />If <param name="hashName" /> is null or empty</exception>
         /// <exception cref="NotSupportedException" />If <param name="hashName" /> is invalid.</exception>
-        public static bool CheckHashSHA384(this string _this, string hashValue, IBitConfiguration config = null) => CheckHash(_this, hashValue, HASH_NAME_SHA384, config);
+        public static bool Sha384Check(this string _this, string hashValue, IBitConfiguration config = null) => CheckHash(_this, hashValue, HASH_NAME_SHA384, config);
 
         /// <summary>
         /// Checks raw string combination with SHA512 hash.
@@ -248,7 +248,7 @@ namespace System
         /// <returns><see cref="true" /> if combine, and <see cref="false" /> if not combine or raw string is null or empty.</returns>
         /// <exception cref="ArgumentNullException" />If <param name="hashName" /> is null or empty</exception>
         /// <exception cref="NotSupportedException" />If <param name="hashName" /> is invalid.</exception>
-        public static bool CheckHashSHA512(this string _this, string hashValue, IBitConfiguration config = null) => CheckHash(_this, hashValue, HASH_NAME_SHA512, config);
+        public static bool Sha512Check(this string _this, string hashValue, IBitConfiguration config = null) => CheckHash(_this, hashValue, HASH_NAME_SHA512, config);
 
         /// <summary>
         /// Checks raw string combination with MD5 hash.
@@ -258,7 +258,7 @@ namespace System
         /// <returns><see cref="true" /> if combine, and <see cref="false" /> if not combine or raw string is null or empty.</returns>
         /// <exception cref="ArgumentNullException" />If <param name="hashName" /> is null or empty</exception>
         /// <exception cref="NotSupportedException" />If <param name="hashName" /> is invalid.</exception>
-        public static bool CheckHashMD5(this string _this, string hashValue, IBitConfiguration config = null) => CheckHash(_this, hashValue, HASH_NAME_MD5, config);
+        public static bool Md5Check(this string _this, string hashValue, IBitConfiguration config = null) => CheckHash(_this, hashValue, HASH_NAME_MD5, config);
         #endregion Hash
     }
 }

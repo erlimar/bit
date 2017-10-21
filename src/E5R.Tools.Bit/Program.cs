@@ -2,13 +2,11 @@
 // Licensed under the Apache License, Version 2.0. More license information in LICENSE.txt.
 
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace E5R.Tools.Bit
 {
     using Sdk.Bit.Command;
-    using Sdk.Bit.Services.Abstractions;
     using Engine;
     using Engine.DI;
 

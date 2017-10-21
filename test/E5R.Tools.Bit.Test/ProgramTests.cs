@@ -2,14 +2,10 @@
 // Licensed under the Apache License, Version 2.0. More license information in LICENSE.txt.
 
 using System;
-using Microsoft.Extensions.DependencyInjection;
 using Xunit;
-using Moq;
 
 namespace E5R.Tools.Bit.Test
 {
-    using Engine.DI;
-    using Sdk.Bit.Services.Abstractions;
     using _ = E5R.Test.Commons.TraitConstants;
 
     [Trait(_.MODULE, "E5R.Tool.Bit")]

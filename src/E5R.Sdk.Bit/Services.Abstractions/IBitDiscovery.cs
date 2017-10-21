@@ -3,8 +3,5 @@
 
 namespace E5R.Sdk.Bit.Services.Abstractions
 {
-    public interface IBitDiscovery
-    {
-        
-    }
+    public interface IBitDiscovery { }
 }
