@@ -83,5 +83,83 @@ namespace E5R.Sdk.Bit.Test.Extensions
             Assert.Equal(expected, base64Value.FromBase64());
         }
         #endregion Base64
+
+        #region Hash
+        [Theory(DisplayName = "Empty string returns null value for all algorithm.")]
+        [InlineData("")]
+        [InlineData("     ")]
+        public void Empty_String_Returns_Null_Value(string s)
+        {
+            Assert.Null(s.Md5());
+            Assert.Null(s.Sha1());
+            Assert.Null(s.Sha256());
+            Assert.Null(s.Sha384());
+            Assert.Null(s.Sha512());
+        }
+
+        [Theory(DisplayName = "Empty hashName parameter up ArgumentNullException for all algorithm.")]
+        [InlineData(null)]
+        [InlineData("")]
+        public void Empty_HashName_Up_ArgumentNullException(string hashName)
+        {
+            Assert.Throws<ArgumentNullException>(() => "a".ToHash(hashName));
+        }
+
+        [Theory(DisplayName = "Invalid hashName parameter up NotSupportedException for all algorithm.")]
+        [InlineData(" MD5 ")]
+        [InlineData(" SHA1 ")]
+        [InlineData(" SHA256 ")]
+        [InlineData(" SHA384 ")]
+        [InlineData(" SHA512 ")]
+        [InlineData("no")]
+        [InlineData("invalid")]
+        public void Invalid_HashName_Up_NotSupportedException(string hashName)
+        {
+            Assert.Throws<NotSupportedException>(() => "a".ToHash(hashName));
+        }
+
+        [Theory(DisplayName = "No case sensitive algorithm name.")]
+        [InlineData("md5")]
+        [InlineData("mD5")]
+        [InlineData("Md5")]
+        [InlineData("MD5")]
+        [InlineData("sha1")]
+        [InlineData("Sha1")]
+        [InlineData("sHa1")]
+        [InlineData("shA1")]
+        [InlineData("SHA1")]
+        [InlineData("sha256")]
+        [InlineData("Sha256")]
+        [InlineData("sHa256")]
+        [InlineData("shA256")]
+        [InlineData("SHA256")]
+        [InlineData("sha384")]
+        [InlineData("Sha384")]
+        [InlineData("sHa384")]
+        [InlineData("shA384")]
+        [InlineData("SHA384")]
+        [InlineData("sha512")]
+        [InlineData("Sha512")]
+        [InlineData("sHa512")]
+        [InlineData("shA512")]
+        [InlineData("SHA512")]
+        public void No_Case_Sensitive(string hashName)
+        {
+            Assert.NotEmpty("a".ToHash(hashName));
+        }
+
+        [Theory(DisplayName = "Hash algorithm has string length fixed")]
+        [InlineData("a")]
+        [InlineData("All values")]
+        [InlineData("E5R Development Team")]
+        public void String_Length_Is_Fixed(string value)
+        {
+            Assert.Equal(32, value.Md5().Length);
+            Assert.Equal(40, value.Sha1().Length);
+            Assert.Equal(64, value.Sha256().Length);
+            Assert.Equal(96, value.Sha384().Length);
+            Assert.Equal(128, value.Sha512().Length);
+        }
+        #endregion Hash
     }
 }

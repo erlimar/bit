@@ -107,7 +107,7 @@ namespace System
         /// <returns>Hash string</returns>
         /// <exception cref="ArgumentNullException" />If <param name="hashName" /> is null or empty</exception>
         /// <exception cref="NotSupportedException" />If <param name="hashName" /> is invalid.</exception>
-        public static string ToHash(this string _this, string hashName, IBitConfiguration config = null)
+        internal static string ToHash(this string _this, string hashName, IBitConfiguration config = null)
         {
             if (string.IsNullOrWhiteSpace(_this))
             {
@@ -127,7 +127,7 @@ namespace System
                 HASH_NAME_MD5
             };
 
-            if (Array.IndexOf(validNames, hashName) < 0)
+            if (Array.IndexOf(validNames, hashName.ToUpperInvariant()) < 0)
             {
                 throw new NotSupportedException(string.Format("Not supported hash lgoritm: {0}.", hashName));
             }
