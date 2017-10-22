@@ -21,10 +21,10 @@ namespace E5R.Tools.Bit
 
         internal async Task<BitResult> Run()
         {
-            return new BitResult
-            {
-                ResultCode = -1
-            };
+            var cmd = new BitCommand();
+            var ctx = new BitContext();
+
+            return await cmd.Main(ctx);
         }
 
         static int Main()

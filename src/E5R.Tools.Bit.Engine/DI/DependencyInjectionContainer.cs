@@ -3,34 +3,51 @@
 
 using System;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 
 namespace E5R.Tools.Bit.Engine.DI
 {
     public class DependencyInjectionContainer
     {
         private readonly IServiceCollection _services;
+        private readonly Func<IEnumerable<KeyValuePair<Type, Type>>> _defaultServicesFactory;
+        private readonly Action<ILoggingBuilder> _loggingConfigure;
+        private bool defaultServicesLoaded = false;
 
-        public DependencyInjectionContainer(IServiceCollection services)
+        public DependencyInjectionContainer(IServiceCollection services,
+            Func<IEnumerable<KeyValuePair<Type, Type>>> defaultServicesFactory, Action<ILoggingBuilder> loggingConfigure)
         {
             _services = services ?? throw new ArgumentNullException(nameof(services));
-
-            AddDefaultServices(_services);
+            _defaultServicesFactory = defaultServicesFactory ?? throw new ArgumentNullException(nameof(defaultServicesFactory));
+            _loggingConfigure = loggingConfigure ?? throw new ArgumentNullException(nameof(loggingConfigure));
         }
 
-        protected virtual void AddDefaultServices(IServiceCollection services) => throw new NotImplementedException();
         protected virtual IServiceProvider GetProvider(IServiceCollection services) => throw new NotImplementedException();
-
-        public IServiceProvider GetProvider() => GetProvider(_services);
         public static DependencyInjectionContainer BuildDefault() => new BitEngineContainer();
 
-        public void Add(Type serviceType)
+        private void EnsureDefaultServices()
         {
-            if (serviceType == null)
+            if (defaultServicesLoaded)
             {
-                throw new ArgumentNullException(nameof(serviceType));
+                return;
             }
 
-            _services.AddTransient(serviceType);
+            foreach (var pair in _defaultServicesFactory())
+            {
+                if (pair.Key == null)
+                {
+                    _services.AddSingleton(pair.Value);
+                }
+                else
+                {
+                    _services.AddSingleton(pair.Value, pair.Key);
+                }
+            }
+
+            _services.AddLogging(_loggingConfigure);
+
+            defaultServicesLoaded = true;
         }
 
         internal void AddSingleton<T>(T serviceType)
@@ -41,7 +58,25 @@ namespace E5R.Tools.Bit.Engine.DI
                 throw new ArgumentNullException(nameof(serviceType));
             }
 
+            EnsureDefaultServices();
             _services.AddSingleton<T>(serviceType);
+        }
+
+        public IServiceProvider GetProvider()
+        {
+            EnsureDefaultServices();
+            return GetProvider(_services);
+        }
+
+        public void Add(Type serviceType)
+        {
+            if (serviceType == null)
+            {
+                throw new ArgumentNullException(nameof(serviceType));
+            }
+
+            EnsureDefaultServices();
+            _services.AddTransient(serviceType);
         }
     }
 }

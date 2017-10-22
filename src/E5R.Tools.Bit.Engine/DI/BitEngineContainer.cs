@@ -3,6 +3,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System;
 
 namespace E5R.Tools.Bit.Engine.DI
@@ -13,21 +14,24 @@ namespace E5R.Tools.Bit.Engine.DI
 
     public class BitEngineContainer : DependencyInjectionContainer
     {
-        public BitEngineContainer() : base(new ServiceCollection()) { }
+        public BitEngineContainer()
+            : base(new ServiceCollection(), DefaultServicesFactory, LoggingConfigure)
+        { }
 
-        protected override void AddDefaultServices(IServiceCollection services)
+        private static IEnumerable<KeyValuePair<Type, Type>> DefaultServicesFactory()
         {
-            services.AddSingleton<IBitConfiguration, BitConfiguration>();
-            services.AddSingleton<IBitDiscovery, BitDiscovery>();
-            services.AddSingleton<IBitEnvironment, BitEnvironment>();
-            services.AddSingleton<IBitCompiler, CSharpCompiler>();
-
-            services.AddLogging(builder =>
-            {
-                builder.AddConsole();
-            });
+            yield return NewTypeKeyValuePair<BitConfiguration, IBitConfiguration>();
+            yield return NewTypeKeyValuePair<BitDiscovery, IBitDiscovery>();
+            yield return NewTypeKeyValuePair<BitEnvironment, IBitEnvironment>();
+            yield return NewTypeKeyValuePair<CSharpCompiler, IBitCompiler>();
         }
 
+        private static KeyValuePair<Type, Type> NewTypeKeyValuePair<T1, T2>()
+        {
+            return new KeyValuePair<Type, Type>(typeof(T1), typeof(T2));
+        }
+
+        private static void LoggingConfigure(ILoggingBuilder builder) => builder.AddConsole();
         protected override IServiceProvider GetProvider(IServiceCollection services) => services.BuildServiceProvider();
     }
 }

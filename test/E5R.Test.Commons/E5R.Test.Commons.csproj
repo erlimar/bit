@@ -7,4 +7,8 @@
     <RootNamespace>E5R.Test.Commons</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\E5R.Tools.Bit.Engine\E5R.Tools.Bit.Engine.csproj" />
+  </ItemGroup>
+
 </Project>

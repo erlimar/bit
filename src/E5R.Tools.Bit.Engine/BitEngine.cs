@@ -23,11 +23,7 @@ namespace E5R.Tools.Bit.Engine
 
         public static BitEngine Build(DependencyInjectionContainer container)
         {
-            var engine = new BitEngine(container);
-
-            container.AddSingleton(engine);
-
-            return engine;
+            return new BitEngine(container);
         }
     }
 }
