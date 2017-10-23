@@ -23,7 +23,7 @@ namespace E5R.Sdk.Bit.Test.Utils
             Assert.Null(BitUri.ParseOrDefault(badUri));
         }
 
-        [Theory(DisplayName = "ParseOrDefault: Returns null to bad Uri")]
+        [Theory(DisplayName = "ParseOrDefault: Returns not null to good Uri")]
         [InlineData("cmd://resource@repository/version")]
         [InlineData("cmd://resource@repository")]
         [InlineData("cmd://resource/version")]

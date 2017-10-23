@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Emit;
+using Microsoft.Extensions.Logging;
+
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace E5R.Tools.Bit.Engine.Compilers
 {
@@ -15,6 +18,13 @@ namespace E5R.Tools.Bit.Engine.Compilers
 
     public class CSharpCompiler : IBitCompiler
     {
+        private readonly ILogger _logger;
+
+        public CSharpCompiler(ILogger<CSharpCompiler> logger)
+        {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
         public byte[] CompileByteCode(string code)
         {
             var tree = CSharpSyntaxTree.ParseText(code);
