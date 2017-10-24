@@ -8,7 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Resources\CompilerError.csx" />
+    <EmbeddedResource Include="Resources\InvalidCSharpCode.csx" />
+    <EmbeddedResource Include="Resources\ValidCSharpCode.csx" />
   </ItemGroup>
 
   <ItemGroup>
