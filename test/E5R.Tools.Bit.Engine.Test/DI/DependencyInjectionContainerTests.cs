@@ -7,7 +7,7 @@ using Xunit;
 using Moq;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace E5R.Tools.Bit.Engine.Test
+namespace E5R.Tools.Bit.Engine.Test.DI
 {
     using Engine.DI;
     using Microsoft.Extensions.Logging;
