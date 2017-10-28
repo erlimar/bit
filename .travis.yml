@@ -28,8 +28,8 @@ matrix:
       osx_image: xcode7.3
       dotnet: 2.0.0
       env:
-        - CONFIGURATION=Release
-    - os: osx # OSX 10.12, Debug
+        - CONFIGURATION=Debug
+    - os: osx # OSX 10.12, Release
       osx_image: xcode7.3
       dotnet: 2.0.0
       env:
