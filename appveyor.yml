@@ -24,6 +24,9 @@ build_script:
   - ps: dotnet restore --no-cache
   - ps: dotnet build --configuration $env:CONFIGURATION
 
+cache:
+  - .\.dotnetsdk
+
 test:
   assemblies:
     only:
@@ -34,4 +37,4 @@ test:
     - UNIT
 
 artifacts:
-  - path: '**\*.nupkg'
+  - path: 'src\**\*.nupkg'
