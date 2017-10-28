@@ -1,6 +1,7 @@
 # E5R.Tools.Bit
 
 [![Build status](https://ci.appveyor.com/api/projects/status/toqbgycdwfua2ide?svg=true)](https://ci.appveyor.com/project/erlimar/bit)
+[![Build Status](https://travis-ci.org/erlimar/bit.svg?branch=master)](https://travis-ci.org/erlimar/bit)
 
 Uma ferramenta mínima, extensível, independente e auto-suficiente para o desenvolvimento de software multiplataforma.
 

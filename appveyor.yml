@@ -32,9 +32,5 @@ test:
     only:
     - 'test\**\*.Test.dll'
 
-  categories:
-    only:
-    - UNIT
-
 artifacts:
   - path: 'src\**\*.nupkg'
