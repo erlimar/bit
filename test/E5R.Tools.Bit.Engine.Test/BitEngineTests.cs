@@ -10,6 +10,7 @@ namespace E5R.Tools.Bit.Engine.Test
 
     [Trait(_.MODULE, "E5R.Tools.Bit.Engine")]
     [Trait(_.COMPONENT, nameof(BitEngine))]
+    [Trait(_.CATEGORY, "UNIT")]
     public class BitEngineTests
     {
         [Fact(DisplayName ="Parameter container is required")]

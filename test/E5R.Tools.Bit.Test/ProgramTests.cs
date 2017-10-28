@@ -10,6 +10,7 @@ namespace E5R.Tools.Bit.Test
 
     [Trait(_.MODULE, "E5R.Tool.Bit")]
     [Trait(_.COMPONENT, nameof(Program))]
+    [Trait(_.CATEGORY, "UNIT")]
     public class ProgramTests
     {
         [Fact(DisplayName = "Constructor does not accept null for [container] parameter.")]

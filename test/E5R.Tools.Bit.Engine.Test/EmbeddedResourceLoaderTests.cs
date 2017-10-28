@@ -8,6 +8,7 @@ namespace E5R.Tools.Bit.Engine.Test
 
     [Trait(_.MODULE, "E5R.Tools.Bit.Engine")]
     [Trait(_.COMPONENT, nameof(EmbeddedResourceLoader))]
+    [Trait(_.CATEGORY, "UNIT")]
     public class EmbeddedResourceLoaderTests
     {
         [Fact(DisplayName = "Constructor is private")]

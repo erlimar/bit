@@ -10,6 +10,7 @@ namespace E5R.Sdk.Bit.Test.Extensions
 
     [Trait(_.MODULE, "E5R.Sdk.Bit")]
     [Trait(_.COMPONENT, nameof(ByteExtensions))]
+    [Trait(_.CATEGORY, "UNIT")]
     public class ByteExtensionsTests
     {
         [Fact(DisplayName = "ToHexadecimalString: Empty array generates empty hexadecimal string")]

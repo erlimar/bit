@@ -11,6 +11,7 @@ namespace E5R.Sdk.Bit.Test.Utils
 
     [Trait(_.MODULE, "E5R.Sdk.Bit")]
     [Trait(_.COMPONENT, nameof(BitUri))]
+    [Trait(_.CATEGORY, "UNIT")]
     public class BitUriTests
     {
         [Theory(DisplayName = "ParseOrDefault: Returns null to bad Uri")]

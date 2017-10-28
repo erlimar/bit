@@ -11,6 +11,7 @@ namespace E5R.Tools.Bit.Engine.Test.Compilers
 
     [Trait(_.MODULE, "E5R.Tools.Bit.Engine")]
     [Trait(_.COMPONENT, nameof(CSharpCompiler))]
+    [Trait(_.CATEGORY, "UNIT")]
     public class CSharpCompilerTests
     {
         [Fact(DisplayName = "Constructor does not accept null for [services] parameter.")]

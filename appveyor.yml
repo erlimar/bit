@@ -1,3 +1,4 @@
+version: 1.0.0-dev-{build}
 image: Visual Studio 2017
 
 environment:
@@ -20,13 +21,17 @@ install:
 
 build_script:
   - ps: dotnet --info
-  - ps: ls
-  - ps: dotnet restore
-  - ps: dotnet build -c {configuration}
+  - ps: dotnet restore --no-cache
+  - ps: dotnet build --configuration $env:CONFIGURATION
 
 test:
   assemblies:
     only:
     - test/**/*.Test.dll
 
-version: 1.0.0-dev-{build}
+  categories:
+    only:
+    - UNIT
+
+artifacts:
+  - path: '**\*.nupkg'

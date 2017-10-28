@@ -15,6 +15,7 @@ namespace E5R.Tools.Bit.Engine.Test.DI
 
     [Trait(_.MODULE, "E5R.Tools.Bit.Engine")]
     [Trait(_.COMPONENT, nameof(DependencyInjectionContainer))]
+    [Trait(_.CATEGORY, "UNIT")]
     public class DependencyInjectionContainerTests
     {
         [Fact(DisplayName = "Constructor does not accept null for [services] parameter.")]

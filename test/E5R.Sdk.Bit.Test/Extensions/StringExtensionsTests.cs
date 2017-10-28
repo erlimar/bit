@@ -10,6 +10,7 @@ namespace E5R.Sdk.Bit.Test.Extensions
 
     [Trait(_.MODULE, "E5R.Sdk.Bit")]
     [Trait(_.COMPONENT, nameof(StringExtensions))]
+    [Trait(_.CATEGORY, "UNIT")]
     public class StringExtensionsTests
     {
         #region Base64

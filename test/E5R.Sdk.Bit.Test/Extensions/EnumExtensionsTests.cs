@@ -11,6 +11,7 @@ namespace E5R.Sdk.Bit.Test.Extensions
 
     [Trait(_.MODULE, "E5R.Sdk.Bit")]
     [Trait(_.COMPONENT, nameof(EnumExtensions))]
+    [Trait(_.CATEGORY, "UNIT")]
     public class EnumExtensionsTests
     {
         [Fact(DisplayName = "GetDescription: BitUriScheme.Command == \"cmd\"")]
