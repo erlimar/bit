@@ -1,0 +1,13 @@
+version: 1.0.0-ci-appveyor-{build}
+image: Visual Studio 2017
+configuration:
+- Debug
+- Release
+platform:
+- x86
+- x64
+build:
+  project: E5R.Bit.sln
+  publish_nuget: true
+  publish_nuget_symbols: true
+  verbosity: minimal
