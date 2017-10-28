@@ -1,4 +1,4 @@
-version: 1.0.0-dev-{build}
+version: 1.0.0-dev-b{build}
 image: Visual Studio 2017
 
 environment:
@@ -15,8 +15,8 @@ platform:
 install:
   - ps: $env:DOTNET_INSTALL_DIR = "$pwd\.dotnetsdk"
   - ps: mkdir $env:DOTNET_INSTALL_DIR -Force | Out-Null
-  - ps: Invoke-WebRequest -Uri "https://dot.net/v1/dotnet-install.ps1" -OutFile "$($env:DOTNET_INSTALL_DIR)/dotnet-install.ps1"
-  - ps: '& "$($env:DOTNET_INSTALL_DIR)/dotnet-install.ps1" -Architecture $env:PLATFORM -Version $env:CLI_VERSION -InstallDir $env:DOTNET_INSTALL_DIR'
+  - ps: 'if (-not ($env:DOTNET_INSTALL_DIR/dotnet.exe)){ Invoke-WebRequest -Uri "https://dot.net/v1/dotnet-install.ps1" -OutFile "$($env:DOTNET_INSTALL_DIR)/dotnet-install.ps1" }'
+  - ps: 'if (-not ($env:DOTNET_INSTALL_DIR/dotnet.exe)){ & "$($env:DOTNET_INSTALL_DIR)/dotnet-install.ps1" -Architecture $env:PLATFORM -Version $env:CLI_VERSION -InstallDir $env:DOTNET_INSTALL_DIR }'
   - ps: $env:Path = "$env:DOTNET_INSTALL_DIR;$env:Path"
 
 build_script:
@@ -30,7 +30,7 @@ cache:
 test:
   assemblies:
     only:
-    - test/**/*.Test.dll
+    - 'test\**\*.Test.dll'
 
   categories:
     only:
