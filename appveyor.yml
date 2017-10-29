@@ -16,26 +16,16 @@ platform:
 - x64
 
 install:
-  - ps: & .\build\install.ps1
-  - ps: $env:Path = "$pwd\.dotnetsdk;$env:Path"
+  - ps: '& .\build\install.ps1'
 
 build_script:
-  - ps: dotnet --info
-  - ps: dotnet restore --no-cache
-  - ps: dotnet build --configuration $env:CONFIGURATION
-  - ps: dotnet pack "$pwd\src\E5R.Sdk.Bit\E5R.Sdk.Bit.csproj" --configuration $env:CONFIGURATION /p:VersionPrefix="$env:APPVEYOR_BUILD_VERSION"
+  - ps: '& .\build\build.ps1'
 
 cache:
   - .\.dotnetsdk
 
 test_script:
-  - ps: dotnet test
-  # E5R.Sdk.Bit.Test
-  - ps: dotnet test .\test\E5R.Sdk.Bit.Test\E5R.Sdk.Bit.Test.csproj
-  # E5R.Tools.Bit.Engine.Test
-  - ps: dotnet test .\test\E5R.Tools.Bit.Engine.Test\E5R.Tools.Bit.Engine.Test.csproj
-  # E5R.Tools.Bit.Test
-  - ps: dotnet test .\test\E5R.Tools.Bit.Test\E5R.Tools.Bit.Test.csproj
+  - ps: '& .\build\test.ps1'
 
 artifacts:
   - path: 'src\**\*.nupkg'

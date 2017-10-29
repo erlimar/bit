@@ -18,5 +18,3 @@ if (-not ("$SCRIPT_INSTALL_PATH" | Test-Path))
 if (-not ("$SDK_INSTALL_DIR\dotnet.exe" | Test-Path)){
     & "$SCRIPT_INSTALL_PATH" -Architecture $SDK_PLATFORM -Version $SDK_VERSION -InstallDir $SDK_INSTALL_DIR
 }
-
-$env:Path = "$env:DOTNET_INSTALL_DIR;$env:Path"
