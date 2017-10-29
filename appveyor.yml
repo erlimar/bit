@@ -1,3 +1,6 @@
+# Copyright (c) E5R Development Team. All rights reserved.
+# Licensed under the Apache License, Version 2.0. More license information in LICENSE.txt.
+
 version: 1.0.0-dev-b{build}
 image: Visual Studio 2017
 
@@ -13,11 +16,8 @@ platform:
 - x64
 
 install:
-  - ps: $env:DOTNET_INSTALL_DIR = "$pwd\.dotnetsdk"
-  - ps: mkdir $env:DOTNET_INSTALL_DIR -Force | Out-Null
-  - ps: 'if (-not ("$env:DOTNET_INSTALL_DIR/dotnet.exe" | Test-Path)){ Invoke-WebRequest -Uri "https://dot.net/v1/dotnet-install.ps1" -OutFile "$($env:DOTNET_INSTALL_DIR)/dotnet-install.ps1" }'
-  - ps: 'if (-not ("$env:DOTNET_INSTALL_DIR/dotnet.exe" | Test-Path)){ & "$($env:DOTNET_INSTALL_DIR)/dotnet-install.ps1" -Architecture $env:PLATFORM -Version $env:CLI_VERSION -InstallDir $env:DOTNET_INSTALL_DIR }'
-  - ps: $env:Path = "$env:DOTNET_INSTALL_DIR;$env:Path"
+  - ps: & .\build\install.ps1
+  - ps: $env:Path = "$pwd\.dotnetsdk;$env:Path"
 
 build_script:
   - ps: dotnet --info
@@ -29,12 +29,13 @@ cache:
   - .\.dotnetsdk
 
 test_script:
+  - ps: dotnet test
   # E5R.Sdk.Bit.Test
-  - ps: dotnet test .\test\E5R.Sdk.Bit.Test\E5R.Sdk.Bit.Test.csproj --no-build
+  - ps: dotnet test .\test\E5R.Sdk.Bit.Test\E5R.Sdk.Bit.Test.csproj
   # E5R.Tools.Bit.Engine.Test
-  - ps: dotnet test .\test\E5R.Tools.Bit.Engine.Test\E5R.Tools.Bit.Engine.Test.csproj --no-build
+  - ps: dotnet test .\test\E5R.Tools.Bit.Engine.Test\E5R.Tools.Bit.Engine.Test.csproj
   # E5R.Tools.Bit.Test
-  - ps: dotnet test .\test\E5R.Tools.Bit.Test\E5R.Tools.Bit.Test.csproj --no-build
+  - ps: dotnet test .\test\E5R.Tools.Bit.Test\E5R.Tools.Bit.Test.csproj
 
 artifacts:
   - path: 'src\**\*.nupkg'
