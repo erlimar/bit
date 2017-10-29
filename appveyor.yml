@@ -29,24 +29,15 @@ cache:
   - .\.dotnetsdk
 
 test_script:
-  - ps: $env:APPVEYOR_BUILD_FOLDER | Write-Host
-  - ps: $pwd | Write-Host
-  - ps: $env:APP_ROOT_PATH = "$pwd"
   # E5R.Sdk.Bit.Test
-  - ps: Push-Location
-  - ps: cd "$env:APP_ROOT_PATH/test/E5R.Sdk.Bit.Test"
+  - ps: cd "$env:APPVEYOR_BUILD_FOLDER\test\E5R.Sdk.Bit.Test"
   - ps: dotnet xunit --no-build
-  - ps: Pop-Location
   # E5R.Tools.Bit.Engine.Test
-  - ps: Push-Location
-  - ps: cd "$env:APP_ROOT_PATH/test/E5R.Tools.Bit.Engine.Test"
+  - ps: cd "$env:APPVEYOR_BUILD_FOLDER\test\E5R.Tools.Bit.Engine.Test"
   - ps: dotnet xunit --no-build
-  - ps: Pop-Location
   # E5R.Tools.Bit.Test
-  - ps: Push-Location
-  - ps: cd "$env:APP_ROOT_PATH/test/E5R.Tools.Bit.Test"
+  - ps: cd "$env:APPVEYOR_BUILD_FOLDER\test\E5R.Tools.Bit.Test"
   - ps: dotnet xunit --no-build
-  - ps: Pop-Location
 
 artifacts:
   - path: 'src\**\*.nupkg'
