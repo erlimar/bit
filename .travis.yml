@@ -1,41 +1,44 @@
-language: csharp
+language: c
+
+env:
+  - CLI_VERSION=2.0.0
 
 matrix:
   include:
     - os: linux # Ubuntu 14.04, Debug
       dist: trusty
       sudo: required
-      dotnet: 2.0.0
       env:
         - CONFIGURATION=Debug
     - os: linux # Ubuntu 14.04, Release
       dist: trusty
       sudo: required
-      dotnet: 2.0.0
       env:
         - CONFIGURATION=Release
     - os: osx # OSX 10.11, Debug
       osx_image: xcode7.2
-      dotnet: 2.0.0
       env:
         - CONFIGURATION=Debug
     - os: osx # OSX 10.11, Release
       osx_image: xcode7.2
-      dotnet: 2.0.0
       env:
         - CONFIGURATION=Release
     - os: osx # OSX 10.12, Debug
       osx_image: xcode7.3
-      dotnet: 2.0.0
       env:
         - CONFIGURATION=Debug
     - os: osx # OSX 10.12, Release
       osx_image: xcode7.3
-      dotnet: 2.0.0
       env:
         - CONFIGURATION=Release
+
+ install:
+  - export DOTNET_INSTALL_DIR="$PWD/.dotnetsdk"
+  - mkdir $DOTNET_INSTALL_DIR
+  - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version "$CLI_VERSION" --install-dir "$DOTNET_INSTALL_DIR"
+  - export PATH="$DOTNET_INSTALL_DIR:$PATH"  
 
 script:
   - dotnet --info
   - dotnet restore --no-cache
-  - dotnet build --configuration ${CONFIGURATION}
+  - dotnet build --configuration $CONFIGURATION
