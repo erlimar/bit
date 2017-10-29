@@ -23,14 +23,30 @@ build_script:
   - ps: dotnet --info
   - ps: dotnet restore --no-cache
   - ps: dotnet build --configuration $env:CONFIGURATION
+  - ps: dotnet pack "$pwd\src\E5R.Sdk.Bit\E5R.Sdk.Bit.csproj" --configuration $env:CONFIGURATION /p:VersionPrefix="$env:APPVEYOR_BUILD_VERSION"
 
 cache:
   - .\.dotnetsdk
 
-test:
-  assemblies:
-    only:
-    - 'test\**\*.Test.dll'
+test_script:
+  - ps: $env:APPVEYOR_BUILD_FOLDER | Write-Host
+  - ps: $pwd | Write-Host
+  - ps: $env:APP_ROOT_PATH = "$pwd"
+  # E5R.Sdk.Bit.Test
+  - ps: Push-Location
+  - ps: cd "$env:APP_ROOT_PATH/test/E5R.Sdk.Bit.Test"
+  - ps: dotnet xunit --no-build
+  - ps: Pop-Location
+  # E5R.Tools.Bit.Engine.Test
+  - ps: Push-Location
+  - ps: cd "$env:APP_ROOT_PATH/test/E5R.Tools.Bit.Engine.Test"
+  - ps: dotnet xunit --no-build
+  - ps: Pop-Location
+  # E5R.Tools.Bit.Test
+  - ps: Push-Location
+  - ps: cd "$env:APP_ROOT_PATH/test/E5R.Tools.Bit.Test"
+  - ps: dotnet xunit --no-build
+  - ps: Pop-Location
 
 artifacts:
   - path: 'src\**\*.nupkg'

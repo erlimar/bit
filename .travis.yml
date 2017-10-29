@@ -32,7 +32,7 @@ matrix:
       env:
         - CONFIGURATION=Release
 
- install:
+install:
   - export DOTNET_INSTALL_DIR="$PWD/.dotnetsdk"
   - mkdir $DOTNET_INSTALL_DIR
   - curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --version "$CLI_VERSION" --install-dir "$DOTNET_INSTALL_DIR"
