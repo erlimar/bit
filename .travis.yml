@@ -32,30 +32,18 @@ matrix:
         - CONFIGURATION=Release
         - CLI_VERSION=2.0.0
         - VERSION=1.0.0
-#    - os: osx # OSX 10.11, Debug
-#      osx_image: xcode7.2
-#      env:
-#        - CONFIGURATION=Debug
-#        - CLI_VERSION=2.0.0
-#        - VERSION=1.0.0
-#    - os: osx # OSX 10.11, Release
-#      osx_image: xcode7.2
-#      env:
-#        - CONFIGURATION=Release
-#        - CLI_VERSION=2.0.0
-#        - VERSION=1.0.0
-#    - os: osx # OSX 10.12, Debug
-#      osx_image: xcode7.3
-#      env:
-#        - CONFIGURATION=Debug
-#        - CLI_VERSION=2.0.0
-#        - VERSION=1.0.0
-#    - os: osx # OSX 10.12, Release
-#      osx_image: xcode7.3
-#      env:
-#        - CONFIGURATION=Release
-#        - CLI_VERSION=2.0.0
-#        - VERSION=1.0.0
+    - os: osx # OSX 10.12, Debug
+      osx_image: xcode7.3
+      env:
+        - CONFIGURATION=Debug
+        - CLI_VERSION=2.0.0
+        - VERSION=1.0.0
+    - os: osx # OSX 10.12, Release
+      osx_image: xcode7.3
+      env:
+        - CONFIGURATION=Release
+        - CLI_VERSION=2.0.0
+        - VERSION=1.0.0
 
 install:
   - ./build/install.sh
