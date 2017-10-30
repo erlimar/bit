@@ -5,9 +5,9 @@
 
 set -e
 
-SDK_INSTALL_DIR = "$PWD/.dotnetsdk"
-DOTNET_EXE = "$SDK_INSTALL_DIR/dotnet"
-PACKAGE_VERSION = "$VERSION-dev-b-$TRAVIS_BUILD_NUMBER"
+SDK_INSTALL_DIR="$PWD/.dotnetsdk"
+DOTNET_EXE="$SDK_INSTALL_DIR/dotnet"
+PACKAGE_VERSION="$VERSION-dev-b-$TRAVIS_BUILD_NUMBER"
 
 "$DOTNET_EXE" --info
 "$DOTNET_EXE" restore --no-cache

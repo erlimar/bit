@@ -5,13 +5,13 @@
 
 set -e
 
-SDK_INSTALL_DIR = "$PWD/.dotnetsdk"
-SDK_PLATFORM = "x64"
-SDK_VERSION = "$CLI_VERSION"
+SDK_INSTALL_DIR="$PWD/.dotnetsdk"
+SDK_PLATFORM="x64"
+SDK_VERSION="$CLI_VERSION"
 DOWNLOADER=$(which curl)
 
-SCRIPT_INSTALL_URL ="https://dot.net/v1/dotnet-install.sh"
-SCRIPT_INSTALL_PATH = "$SDK_INSTALL_DIR/dotnet-install.sh"
+SCRIPT_INSTALL_URL="https://dot.net/v1/dotnet-install.sh"
+SCRIPT_INSTALL_PATH="$SDK_INSTALL_DIR/dotnet-install.sh"
 
 mkdir -p "$SDK_INSTALL_DIR"
 

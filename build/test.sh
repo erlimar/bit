@@ -5,8 +5,8 @@
 
 set -e
 
-SDK_INSTALL_DIR = "$PWD/.dotnetsdk"
-DOTNET_EXE ="$SDK_INSTALL_DIR/dotnet"
+SDK_INSTALL_DIR="$PWD/.dotnetsdk"
+DOTNET_EXE="$SDK_INSTALL_DIR/dotnet"
 
 "$DOTNET_EXE" test "./test/E5R.Sdk.Bit.Test/E5R.Sdk.Bit.Test.csproj"
 "$DOTNET_EXE" test "./test/E5R.Tools.Bit.Engine.Test/E5R.Tools.Bit.Engine.Test.csproj"
