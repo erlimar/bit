@@ -5,7 +5,7 @@ version: 1.0.0-dev-b{build}
 image: Visual Studio 2017
 
 environment:
-  CLI_VERSION: 2.0.0
+  CLI_VERSION: 2.0.2
 
 configuration:
 - Debug
