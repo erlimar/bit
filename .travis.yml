@@ -23,26 +23,26 @@ matrix:
       sudo: required
       env:
         - CONFIGURATION=Debug
-        - CLI_VERSION=2.0.0
+        - CLI_VERSION=2.0.2
         - VERSION=1.0.0
     - os: linux # Ubuntu 14.04, Release
       dist: trusty
       sudo: required
       env:
         - CONFIGURATION=Release
-        - CLI_VERSION=2.0.0
+        - CLI_VERSION=2.0.2
         - VERSION=1.0.0
     - os: osx # OSX 10.12, Debug
-      osx_image: xcode7.3
+      osx_image: xcode8.1
       env:
         - CONFIGURATION=Debug
-        - CLI_VERSION=2.0.0
+        - CLI_VERSION=2.0.2
         - VERSION=1.0.0
     - os: osx # OSX 10.12, Release
-      osx_image: xcode7.3
+      osx_image: xcode8.1
       env:
         - CONFIGURATION=Release
-        - CLI_VERSION=2.0.0
+        - CLI_VERSION=2.0.2
         - VERSION=1.0.0
 
 install:
