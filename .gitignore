@@ -4,3 +4,11 @@ bin/
 .vscode/
 .vs/
 /TestResults
+
+build/.dotnetsdk/
+build/addins/*
+!build/addins/packages.config
+build/modules/*
+!build/modules/packages.config
+build/tools/*
+!build/tools/packages.config
