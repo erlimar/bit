@@ -168,20 +168,8 @@ if (!(Test-Path $TOOLS_PACKAGES_CONFIG)) {
     }
 }
 
-# Try find DotNet in tool path
-if (-not ($DOTNET_COMMAND | Test-Path)) {
-    # Try find DotNet in system path
-    $cmdDotNetTest = Get-Command "dotnet.exe" -ErrorAction SilentlyContinue
-
-    if ($cmdDotNetTest -eq $null -or !(DotNetVersionIsValid $cmdDotNetTest.Version)) {
-        $DOTNET_COMMAND = $null
-    } else {
-        $DOTNET_COMMAND = $cmdDotNetTest.Path
-    }
-}
-
 # Try install DotNet if not exists
-if ($DOTNET_COMMAND -eq $null) {
+if (-not ($DOTNET_COMMAND | Test-Path)) {
     Write-Verbose -Message "Downloading DotNet installer..."
     mkdir $DOTNET_DIR -Force | Out-Null
     
@@ -195,18 +183,12 @@ if ($DOTNET_COMMAND -eq $null) {
         }
     }
 
-    $DOTNET_COMMAND_TMP = Join-Path $DOTNET_DIR "dotnet.exe"
+    & $DOTNET_INSTALL_PATH -Version $DNR_VERSION -InstallDir $DOTNET_DIR
+    Remove-Item $DOTNET_INSTALL_PATH -Force
 
-    if (-not ($DOTNET_COMMAND_TMP | Test-Path)){
-        & $DOTNET_INSTALL_PATH -Version $DNR_VERSION -InstallDir $DOTNET_DIR
-        Remove-Item $DOTNET_INSTALL_PATH -Force
-    }
-
-    if (-not ($DOTNET_COMMAND_TMP | Test-Path)){
+    if (-not ($DOTNET_COMMAND | Test-Path)){
         Throw "Could not install DotNet $DNR_VERSION."
     }
-
-    $DOTNET_COMMAND = $DOTNET_COMMAND_TMP
 }
 
 # Don't save nuget.exe path to environment to be available to child processed
