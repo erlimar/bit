@@ -62,11 +62,11 @@ Param(
     [string[]]$ScriptArgs
 )
 
-#DotNet SDK minimal version 1.1.4
-$DNR_MAJOR = 1
-$DNR_MINOR = 1
-$DNR_REVISION = 4
-$DNR_VERSION = "$DNR_MAJOR.$DNR_MINOR.$DNR_REVISION"
+#Default DotNet SDK minimal version 1.1.4
+$DSDK_MAJOR = 1
+$DSDK_MINOR = 1
+$DSDK_REVISION = 4
+$DSDK_VERSION = "$DSDK_MAJOR.$DSDK_MINOR.$DSDK_REVISION"
 
 $BUILD_DIR = Join-Path $PSScriptRoot "build"
 $TOOLS_DIR = Join-Path $BUILD_DIR "tools"
@@ -136,13 +136,13 @@ function WriteCakeToolsDotNetProject([string] $outputPath) {
 
 function DotNetVersionIsValid([Version] $version) {
     #Major
-    if($version.Major -gt $DNR_MAJOR) { return $true }
-    if($version.Major -lt $DNR_MAJOR) { return $false }
+    if($version.Major -gt $DSDK_MAJOR) { return $true }
+    if($version.Major -lt $DSDK_MAJOR) { return $false }
     #Minor
-    if($version.Minor -gt $DNR_MINOR) { return $true }
-    if($version.Minor -lt $DNR_MINOR) { return $false }
+    if($version.Minor -gt $DSDK_MINOR) { return $true }
+    if($version.Minor -lt $DSDK_MINOR) { return $false }
     #Revision
-    if($version.Revision -ge $DNR_REVISION) { return $true }
+    if($version.Revision -ge $DSDK_REVISION) { return $true }
 
     return $false
 }
@@ -183,11 +183,11 @@ if (-not ($DOTNET_COMMAND | Test-Path)) {
         }
     }
 
-    & $DOTNET_INSTALL_PATH -Version $DNR_VERSION -InstallDir $DOTNET_DIR
+    & $DOTNET_INSTALL_PATH -Version $DSDK_VERSION -InstallDir $DOTNET_DIR
     Remove-Item $DOTNET_INSTALL_PATH -Force
 
     if (-not ($DOTNET_COMMAND | Test-Path)){
-        Throw "Could not install DotNet $DNR_VERSION."
+        Throw "Could not install DotNet $DSDK_VERSION."
     }
 }
 
