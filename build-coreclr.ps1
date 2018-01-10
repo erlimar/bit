@@ -1,3 +1,5 @@
+#require -version 3
+
 ##########################################################################
 # This is the Cake bootstrapper script for PowerShell.
 # This file was downloaded from https://github.com/cake-build/resources
@@ -63,10 +65,7 @@ Param(
 )
 
 #Default DotNet SDK minimal version 1.1.4
-$DSDK_MAJOR = 1
-$DSDK_MINOR = 1
-$DSDK_REVISION = 4
-$DSDK_VERSION = "$DSDK_MAJOR.$DSDK_MINOR.$DSDK_REVISION"
+$SDK_VERSION = "1.1.4"
 
 $BUILD_DIR = Join-Path $PSScriptRoot "build"
 $TOOLS_DIR = Join-Path $BUILD_DIR "tools"
@@ -85,6 +84,19 @@ $ADDINS_PACKAGES_CONFIG = Join-Path $ADDINS_DIR "packages.config"
 $ADDINS_PACKAGES_CONFIG_MD5 = Join-Path $ADDINS_DIR "packages.config.md5sum"
 $MODULES_PACKAGES_CONFIG = Join-Path $MODULES_DIR "packages.config"
 $MODULES_PACKAGES_CONFIG_MD5 = Join-Path $MODULES_DIR "packages.config.md5sum"
+$GLOBAL_JSON_PATH = Join-Path $PSScriptRoot "global.json"
+
+if ($GLOBAL_JSON_PATH | Test-Path) {
+    Write-Verbose -Message "Get .NET SDK version from global.json in ${GLOBAL_JSON_PATH}"
+    $globalJson = Get-Content $GLOBAL_JSON_PATH | ConvertFrom-Json
+
+    if ($globalJson.sdk -and $globalJson.sdk.version) {
+        $SDK_VERSION = $globalJson.sdk.version
+    }
+    else {
+        Write-Verbose -Message "File global.json don't contain sdk version information"
+    }
+}
 
 [Reflection.Assembly]::LoadWithPartialName("System.Security") | Out-Null
 function MD5HashFile([string] $filePath)
@@ -134,19 +146,6 @@ function WriteCakeToolsDotNetProject([string] $outputPath) {
     $content | Out-File $outputPath -Encoding "UTF8"
 }
 
-function DotNetVersionIsValid([Version] $version) {
-    #Major
-    if($version.Major -gt $DSDK_MAJOR) { return $true }
-    if($version.Major -lt $DSDK_MAJOR) { return $false }
-    #Minor
-    if($version.Minor -gt $DSDK_MINOR) { return $true }
-    if($version.Minor -lt $DSDK_MINOR) { return $false }
-    #Revision
-    if($version.Revision -ge $DSDK_REVISION) { return $true }
-
-    return $false
-}
-
 Write-Host "Preparing to run build script..."
 
 if(!$PSScriptRoot){
@@ -183,11 +182,11 @@ if (-not ($DOTNET_COMMAND | Test-Path)) {
         }
     }
 
-    & $DOTNET_INSTALL_PATH -Version $DSDK_VERSION -InstallDir $DOTNET_DIR
+    & $DOTNET_INSTALL_PATH -Version $SDK_VERSION -InstallDir $DOTNET_DIR
     Remove-Item $DOTNET_INSTALL_PATH -Force
 
     if (-not ($DOTNET_COMMAND | Test-Path)){
-        Throw "Could not install DotNet $DSDK_VERSION."
+        Throw "Could not install DotNet $SDK_VERSION."
     }
 }
 
@@ -203,7 +202,7 @@ function RestorePackages([string] $targetName, [string] $packageFile) {
     if((!(Test-Path $md5File)) -Or ($md5Hash -ne (Get-Content $md5File ))) {
         Write-Verbose -Message "Missing or changed $targetName package.config hash..."
         Get-ChildItem -Path $parentPath -Exclude packages.config,Cake.Bakery |
-        Remove-Item -Recurse
+            Remove-Item -Recurse
 
         Write-Verbose -Message "Restoring $targetName..."
         & "$DOTNET_COMMAND" restore $packageFile --packages "$parentPath"
