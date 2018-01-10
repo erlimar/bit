@@ -65,7 +65,8 @@ Param(
 )
 
 #Default DotNet SDK minimal version 1.1.4
-$SDK_VERSION = "1.1.4"
+$SDK_VERSION_CAKE = "1.1.4"
+$SDK_VERSION_GLOBAL = $SDK_VERSION_CAKE
 
 $BUILD_DIR = Join-Path $PSScriptRoot "build"
 $TOOLS_DIR = Join-Path $BUILD_DIR "tools"
@@ -75,6 +76,7 @@ $DOTNET_DIR = Join-Path $BUILD_DIR ".dotnetsdk"
 $DOTNET_INSTALL_URL ="https://dot.net/v1/dotnet-install.ps1"
 $DOTNET_INSTALL_PATH = Join-Path $DOTNET_DIR "dotnet-install.ps1"
 $DOTNET_COMMAND = Join-Path $DOTNET_DIR "dotnet.exe"
+$DOTNET_RUNTIME_CAKE_PATH = Join-Path $DOTNET_DIR "shared" | Join-Path -ChildPath "Microsoft.NETCore.App"| Join-Path -ChildPath $SDK_VERSION_CAKE
 $CAKE_VERSION = "0.23.0"
 $CAKE_DLL = Join-Path $TOOLS_DIR "cake.coreclr/$CAKE_VERSION/Cake.dll"
 $CAKE_ENTRYPOINT = Join-Path (Join-Path $TOOLS_DIR "Cake.CoreCLR") $CAKE_VERSION
@@ -91,8 +93,8 @@ if ($GLOBAL_JSON_PATH | Test-Path) {
     $globalJson = Get-Content $GLOBAL_JSON_PATH | ConvertFrom-Json
 
     if ($globalJson.sdk -and $globalJson.sdk.version) {
-        $SDK_VERSION = $globalJson.sdk.version
-        Write-Verbose -Message "Detected .NET SDK version: ${SDK_VERSION}"
+        $SDK_VERSION_GLOBAL = $globalJson.sdk.version
+        Write-Verbose -Message "Detected .NET SDK version: ${SDK_VERSION_GLOBAL}"
     }
     else {
         Write-Verbose -Message "File global.json don't contain sdk version information"
@@ -170,11 +172,12 @@ if (!(Test-Path $TOOLS_PACKAGES_CONFIG)) {
 
 # Try install DotNet if not exists
 if (-not ($DOTNET_COMMAND | Test-Path)) {
-    Write-Verbose -Message "Downloading DotNet installer..."
+    Write-Host "Installing DotNet SDK v${SDK_VERSION_GLOBAL}..."
     mkdir $DOTNET_DIR -Force | Out-Null
     
     if (-not ($DOTNET_INSTALL_PATH | Test-Path))
     {
+        Write-Verbose -Message "Downloading DotNet installer..."
         try {
             $wc = GetProxyEnabledWebClient
             $wc.DownloadFile($DOTNET_INSTALL_URL, $DOTNET_INSTALL_PATH)
@@ -183,16 +186,45 @@ if (-not ($DOTNET_COMMAND | Test-Path)) {
         }
     }
 
-    & $DOTNET_INSTALL_PATH -Version $SDK_VERSION -InstallDir $DOTNET_DIR
-    Remove-Item $DOTNET_INSTALL_PATH -Force
+    & $DOTNET_INSTALL_PATH -Version $SDK_VERSION_GLOBAL -InstallDir $DOTNET_DIR
 
     if (-not ($DOTNET_COMMAND | Test-Path)){
-        Throw "Could not install DotNet $SDK_VERSION."
+        Throw "Could not install DotNet $SDK_VERSION_GLOBAL."
     }
+}
+
+# Ensure DotNet runtime for Cake tool
+if (-not ($DOTNET_RUNTIME_CAKE_PATH | Test-Path)) {
+    Write-Host "Installing DotNet Runtime v${SDK_VERSION_GLOBAL} for Cake tool..."
+    mkdir $DOTNET_DIR -Force | Out-Null
+    
+    if (-not ($DOTNET_INSTALL_PATH | Test-Path))
+    {
+        Write-Verbose -Message "Downloading DotNet installer..."
+        try {
+            $wc = GetProxyEnabledWebClient
+            $wc.DownloadFile($DOTNET_INSTALL_URL, $DOTNET_INSTALL_PATH)
+        } catch {
+            Throw "Could not download DotNet installer."
+        }
+    }
+
+    & $DOTNET_INSTALL_PATH -SharedRuntime -Version $SDK_VERSION_CAKE -InstallDir $DOTNET_DIR
+
+    if (-not ($DOTNET_RUNTIME_CAKE_PATH | Test-Path)) {
+        Throw "Could not install DotNet Runtime v${SDK_VERSION_GLOBAL} for Cake tool."
+    }
+}
+
+if($DOTNET_INSTALL_PATH | Test-Path) {
+    Remove-Item $DOTNET_INSTALL_PATH -Force
 }
 
 # Don't save nuget.exe path to environment to be available to child processed
 # $ENV:NUGET_EXE = $NUGET_EXE
+
+# Add dotnet.exe path to PATH environment to be available to child processed
+$ENV:PATH = "${DOTNET_DIR};${ENV:PATH}"
 
 function RestorePackages([string] $targetName, [string] $packageFile) {
     # Check for changes in packages.config and remove installed packages if true.
