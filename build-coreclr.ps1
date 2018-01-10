@@ -87,11 +87,12 @@ $MODULES_PACKAGES_CONFIG_MD5 = Join-Path $MODULES_DIR "packages.config.md5sum"
 $GLOBAL_JSON_PATH = Join-Path $PSScriptRoot "global.json"
 
 if ($GLOBAL_JSON_PATH | Test-Path) {
-    Write-Verbose -Message "Get .NET SDK version from global.json in ${GLOBAL_JSON_PATH}"
+    Write-Verbose -Message "Detecting .NET SDK version from global.json in ${GLOBAL_JSON_PATH}"
     $globalJson = Get-Content $GLOBAL_JSON_PATH | ConvertFrom-Json
 
     if ($globalJson.sdk -and $globalJson.sdk.version) {
         $SDK_VERSION = $globalJson.sdk.version
+        Write-Verbose -Message "Detected .NET SDK version: ${SDK_VERSION}"
     }
     else {
         Write-Verbose -Message "File global.json don't contain sdk version information"
