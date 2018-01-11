@@ -81,14 +81,13 @@ Task("Build")
 });
 
 Task("Test")
-    .IsDependentOn("Build")
     .IsDependentOn("Restore")
     .Does(() =>
 {
     var settings = new DotNetCoreTestSettings
     {
         Configuration = configuration,
-        NoBuild = true
+        NoBuild = false
     };
 
     var projects = GetFiles("./test/**/*.Test.csproj");
