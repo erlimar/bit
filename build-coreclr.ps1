@@ -192,7 +192,7 @@ if (-not ($DOTNET_COMMAND | Test-Path)) {
 
 # Ensure DotNet runtime for Cake tool
 if (-not ($DOTNET_RUNTIME_CAKE_PATH | Test-Path)) {
-    Write-Host "Installing DotNet Runtime v${SDK_VERSION_GLOBAL} for Cake tool..."
+    Write-Host "Installing DotNet Runtime v${SDK_VERSION_CAKE} for Cake tool..."
     mkdir $DOTNET_DIR -Force | Out-Null
     
     if (-not ($DOTNET_INSTALL_PATH | Test-Path))
