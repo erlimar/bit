@@ -20,14 +20,14 @@ platform:
 
 build_script:
 #  - ps: '& .\build\build.ps1'
-  - ps: '& .\build-coreclr.ps1 -Verbosity Diagnostic build'
+  - ps: '& .\build-coreclr.ps1 -Verbosity Diagnostic -Target build'
 
 #cache:
 #  - .\.dotnetsdk
 
 test_script:
 #  - ps: '& .\build\test.ps1'
-  - ps: '& .\build-coreclr.ps1 -Verbosity Diagnostic test'
+  - ps: '& .\build-coreclr.ps1 -Verbosity Diagnostic -Target test'
 
 artifacts:
   - path: 'src\**\*.nupkg'
