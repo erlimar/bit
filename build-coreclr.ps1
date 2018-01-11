@@ -79,15 +79,12 @@ $DOTNET_COMMAND = Join-Path $DOTNET_DIR "dotnet.exe"
 $DOTNET_RUNTIME_CAKE_PATH = Join-Path $DOTNET_DIR "shared" | Join-Path -ChildPath "Microsoft.NETCore.App"| Join-Path -ChildPath $SDK_VERSION_CAKE
 $CAKE_VERSION = "0.23.0"
 $CAKE_DLL = Join-Path $TOOLS_DIR "cake.coreclr/$CAKE_VERSION/Cake.dll"
-$CAKE_ENTRYPOINT = Join-Path (Join-Path $TOOLS_DIR "Cake.CoreCLR") $CAKE_VERSION
 $TOOLS_PACKAGES_CONFIG = Join-Path $TOOLS_DIR "packages.config"
-$TOOLS_PACKAGES_CONFIG_MD5 = Join-Path $TOOLS_DIR "packages.config.md5sum"
 $ADDINS_PACKAGES_CONFIG = Join-Path $ADDINS_DIR "packages.config"
-$ADDINS_PACKAGES_CONFIG_MD5 = Join-Path $ADDINS_DIR "packages.config.md5sum"
 $MODULES_PACKAGES_CONFIG = Join-Path $MODULES_DIR "packages.config"
-$MODULES_PACKAGES_CONFIG_MD5 = Join-Path $MODULES_DIR "packages.config.md5sum"
 $GLOBAL_JSON_PATH = Join-Path $PSScriptRoot "global.json"
 
+# Detecting global.json
 if ($GLOBAL_JSON_PATH | Test-Path) {
     Write-Verbose -Message "Detecting .NET SDK version from global.json in ${GLOBAL_JSON_PATH}"
     $globalJson = Get-Content $GLOBAL_JSON_PATH | ConvertFrom-Json
@@ -219,9 +216,6 @@ if (-not ($DOTNET_RUNTIME_CAKE_PATH | Test-Path)) {
 if($DOTNET_INSTALL_PATH | Test-Path) {
     Remove-Item $DOTNET_INSTALL_PATH -Force
 }
-
-# Don't save nuget.exe path to environment to be available to child processed
-# $ENV:NUGET_EXE = $NUGET_EXE
 
 # Add dotnet.exe path to PATH environment to be available to child processed
 $ENV:PATH = "${DOTNET_DIR};${ENV:PATH}"
