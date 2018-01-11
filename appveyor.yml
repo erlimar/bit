@@ -3,7 +3,9 @@
 
 version: 1.0.0-dev-b{build}
 image: Visual Studio 2017
-platform: x64
+
+platform:
+- x64
 
 configuration:
 - Debug
