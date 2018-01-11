@@ -65,7 +65,7 @@ Param(
 )
 
 #Default DotNet SDK minimal version 1.1.4
-$SDK_VERSION_CAKE = "1.1.4"
+$SDK_VERSION_CAKE = "1.0.4"
 $SDK_VERSION_GLOBAL = $SDK_VERSION_CAKE
 
 $BUILD_DIR = Join-Path $PSScriptRoot "build"
