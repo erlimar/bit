@@ -1,10 +1,9 @@
 obj/
 bin/
-.dotnetsdk
 .vscode/
 .vs/
 /TestResults
-
+dist/
 build/.dotnetsdk/
 build/addins/*
 !build/addins/packages.config
