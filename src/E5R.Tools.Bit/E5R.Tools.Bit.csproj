@@ -5,6 +5,7 @@
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <RootNamespace>E5R.Tools.Bit</RootNamespace>
     <AssemblyName>bit</AssemblyName>
+    <RuntimeIdentifiers>win10-x64;debian-x64;linux-x64;osx.10.12-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <ItemGroup>
