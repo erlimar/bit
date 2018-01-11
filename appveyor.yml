@@ -4,30 +4,21 @@
 version: 1.0.0-dev-b{build}
 image: Visual Studio 2017
 
-#environment:
-#  CLI_VERSION: 2.0.2
-
 configuration:
 - Debug
 - Release
 
 platform:
-#- x86
 - x64
 
-#install:
-#  - ps: '& .\build\install.ps1'
-
 build_script:
-#  - ps: '& .\build\build.ps1'
-  - ps: '& .\build-coreclr.ps1 -Verbosity Diagnostic -Target build'
+  - ps: '& .\build-coreclr.ps1 -Target Build'
 
-#cache:
-#  - .\.dotnetsdk
+cache:
+  - .\build\.dotnetsdk
 
 test_script:
-#  - ps: '& .\build\test.ps1'
-  - ps: '& .\build-coreclr.ps1 -Verbosity Diagnostic -Target test'
+  - ps: '& .\build-coreclr.ps1 -Target Test'
 
 artifacts:
   - path: 'src\**\*.nupkg'
