@@ -31,17 +31,6 @@ JQ_JSON_EXE="$TOOLS_DIR/jq"
 MD5_EXE=
 JQ_JSON_URL=
 
-# Define variables depending on Linux/OSX
-if [[ "$(uname -s)" == "Darwin" ]]; then
-    MD5_EXE="md5 -r"
-    JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-osx-x86"
-    #JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-win32.exe"
-else
-    MD5_EXE="md5sum"
-    JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-linux-x86"
-    #JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-win32.exe"
-fi
-
 has() {
     hash "$1" > /dev/null 2>&1
     return $?
@@ -59,6 +48,63 @@ say_error() {
     printf "error: %s\n" "$1"
 }
 
+download()
+{
+    say_verbose "Downloading $1..."
+    curl -Lsfo "$2" "$1"
+}
+
+write_cake_tools_dotnet_project() {
+cat > "$1" <<- EOF
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard1.6</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Cake.CoreCLR" Version="$CAKE_VERSION" />
+    </ItemGroup>
+</Project>
+EOF
+}
+
+restore_packages() {
+    local TARGET_NAME=$1
+    local PACKAGE_FILE=$2
+
+    say_verbose "restore_package: $1, $2"
+
+    # Check for changes in packages.config and remove installed packages if true.
+    # $parentPath = Split-Path $packageFile -Parent
+    # $md5File = "$packageFile.md5sum"
+    # [string] $md5Hash = MD5HashFile($packageFile)
+
+    # if((!(Test-Path $md5File)) -Or ($md5Hash -ne (Get-Content $md5File ))) {
+    #     Write-Verbose -Message "Missing or changed $targetName package.config hash..."
+    #     Get-ChildItem -Path $parentPath -Exclude packages.config,Cake.Bakery |
+    #         Remove-Item -Recurse
+
+    #     Write-Verbose -Message "Restoring $targetName..."
+    #     & "$DOTNET_COMMAND" restore $packageFile --packages "$parentPath"
+
+    #     if ($LASTEXITCODE -ne 0) {
+    #         Throw "An error occurred while restoring $targetName."
+    #     }
+    #     else
+    #     {
+    #         $md5Hash | Out-File $md5File -Encoding "ASCII"
+    #     }
+    # }
+}
+
+# Define variables depending on Linux/OSX
+if [[ "$(uname -s)" == "Darwin" ]]; then
+    MD5_EXE="md5 -r"
+    JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-osx-x86"
+else
+    MD5_EXE="md5sum"
+    JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-linux-x86"
+fi
+
 if ! has "$MD5_EXE"; then
     say_error "Tool $MD5_EXE is required and not present!"
     exit 1
@@ -68,12 +114,6 @@ if ! has curl; then
     say_error "CURL is required and not present!"
     exit 1
 fi
-
-download()
-{
-    say_verbose "Downloading $1..."
-    curl -Lsfo "$2" "$1"
-}
 
 # Ensure jq: https://stedolan.github.io/jq/download/
 if has jq; then
@@ -105,19 +145,6 @@ if [ -f "$GLOBAL_JSON_PATH" ]; then
         say_verbose "File global.json don't contain sdk version information"
     fi
 fi
-
-write_cake_tools_dotnet_project() {
-cat > "$1" <<- EOF
-<Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup>
-        <TargetFramework>netstandard1.6</TargetFramework>
-    </PropertyGroup>
-    <ItemGroup>
-        <PackageReference Include="Cake.CoreCLR" Version="$CAKE_VERSION" />
-    </ItemGroup>
-</Project>
-EOF
-}
 
 say "Preparing to run build script..."
 
@@ -194,68 +221,50 @@ fi
 # Add dotnet path to PATH environment to be available to child processed
 export PATH="$DOTNET_DIR:$PATH"
 
-# TODO: Not Implemented !!!
-# function RestorePackages([string] $targetName, [string] $packageFile) {
-#     # Check for changes in packages.config and remove installed packages if true.
-#     $parentPath = Split-Path $packageFile -Parent
-#     $md5File = "$packageFile.md5sum"
-#     [string] $md5Hash = MD5HashFile($packageFile)
-#
-#     if((!(Test-Path $md5File)) -Or ($md5Hash -ne (Get-Content $md5File ))) {
-#         Write-Verbose -Message "Missing or changed $targetName package.config hash..."
-#         Get-ChildItem -Path $parentPath -Exclude packages.config,Cake.Bakery |
-#             Remove-Item -Recurse
-#
-#         Write-Verbose -Message "Restoring $targetName..."
-#         & "$DOTNET_COMMAND" restore $packageFile --packages "$parentPath"
-#
-#         if ($LASTEXITCODE -ne 0) {
-#             Throw "An error occurred while restoring $targetName."
-#         }
-#         else
-#         {
-#             $md5Hash | Out-File $md5File -Encoding "ASCII"
-#         }
-#     }
-# }
-
-# TODO: Not Implemented !!!
-# # Restore tools?
-# if(-Not $SkipToolPackageRestore.IsPresent) {
-#     RestorePackages -targetName "tools" -packageFile $TOOLS_PACKAGES_CONFIG
-# }
-
-# TODO: Not Implemented !!!
-# # Restore addins?
-# if(-Not $SkipAddinPackageRestore.IsPresent -and (Test-Path $ADDINS_PACKAGES_CONFIG)) {
-#     RestorePackages -targetName "addins" -packageFile $ADDINS_PACKAGES_CONFIG
-# }
-
-# TODO: Not Implemented !!!
-# # Restore modules?
-# if(-Not $SkipModulePackageRestore.IsPresent -and (Test-Path $MODULES_PACKAGES_CONFIG)) {
-#     RestorePackages -targetName "modules" -packageFile $MODULES_PACKAGES_CONFIG
-# }
-
-# Make sure that Cake has been installed.
-if [ ! -f "$CAKE_DLL" ]; then
-    say "Could not find Cake.dll at '$CAKE_DLL'."
-    exit 1
-fi
-
 # Define default arguments.
 SCRIPT="build.cake"
+SKIP_TOOLS_RESTORE=
+SKIP_ADDIN_RESTORE=
+SKIP_MODULE_RESTORE=
 CAKE_ARGUMENTS=()
 
 # Build Cake arguments
 for i in "$@"; do
     case $1 in
         -s|--script) SCRIPT="$2"; shift ;;
+        --skip-tools-restore) SKIP_TOOLS_RESTORE=1;;
+        --skip-addin-restore) SKIP_ADDIN_RESTORE=1;;
+        --skip-module-restore) SKIP_MODULE_RESTORE=1;;
         --) shift; CAKE_ARGUMENTS+=("$@"); break ;;
         *) CAKE_ARGUMENTS+=("$1") ;;
     esac
     shift
 done
+
+# Restore tools?
+if [ "$SKIP_TOOLS_RESTORE" == "" ]; then
+    restore_packages "tools" "$TOOLS_PACKAGES_CONFIG"
+fi
+
+# Restore addins?
+if [ "$SKIP_ADDIN_RESTORE" == "" ]; then
+    if [ -d "$ADDINS_PACKAGES_CONFIG" ]; then
+        restore_packages "addins" "$ADDINS_PACKAGES_CONFIG"
+    fi
+fi
+
+# Restore modules?
+if [ "$SKIP_MODULE_RESTORE" == "" ]; then
+    if [ -d "$MODULES_PACKAGES_CONFIG" ]; then
+        restore_packages "modules" "$MODULES_PACKAGES_CONFIG"
+    fi
+fi
+
+# Make sure that Cake has been installed.
+if [ ! -f "$CAKE_DLL" ]; then
+    say "Could not find Cake.dll at '$CAKE_DLL'."
+    exit 1
+fi
 
 # Start Cake
 say "Running build script..."

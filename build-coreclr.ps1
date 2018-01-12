@@ -31,7 +31,7 @@ Performs a dry run.
 Uses the nightly builds of the Roslyn script engine.
 .PARAMETER Mono
 Uses the Mono Compiler rather than the Roslyn script engine.
-.PARAMETER SkipToolPackageRestore
+.PARAMETER SkipToolsPackageRestore
 Skips restoring of tools packages.
 .PARAMETER SkipModulePackageRestore
 Skips restoring of modules packages.
@@ -57,7 +57,7 @@ Param(
     [switch]$DryRun,
     [switch]$Experimental,
     [switch]$Mono,
-    [switch]$SkipToolPackageRestore,
+    [switch]$SkipToolsPackageRestore,
     [switch]$SkipModulePackageRestore,
     [switch]$SkipAddinPackageRestore,
     [Parameter(Position=0,Mandatory=$false,ValueFromRemainingArguments=$true)]
@@ -245,7 +245,7 @@ function RestorePackages([string] $targetName, [string] $packageFile) {
 }
 
 # Restore tools?
-if(-Not $SkipToolPackageRestore.IsPresent) {
+if(-Not $SkipToolsPackageRestore.IsPresent) {
     RestorePackages -targetName "tools" -packageFile $TOOLS_PACKAGES_CONFIG
 }
 
