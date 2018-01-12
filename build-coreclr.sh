@@ -34,12 +34,12 @@ JQ_JSON_URL=
 # Define variables depending on Linux/OSX
 if [[ "$(uname -s)" == "Darwin" ]]; then
     MD5_EXE="md5 -r"
-    #JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-osx-x86"
-    JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-win32.exe"
+    JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-osx-x86"
+    #JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-win32.exe"
 else
     MD5_EXE="md5sum"
-    #JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-linux-x86"
-    JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-win32.exe"
+    JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-linux-x86"
+    #JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-win32.exe"
 fi
 
 has() {
@@ -124,57 +124,58 @@ fi
 if [ ! -f "$TOOLS_PACKAGES_CONFIG" ]; then
     say_verbose "Writing packages.config..."    
     write_cake_tools_dotnet_project "$TOOLS_PACKAGES_CONFIG"
+
+    if [ ! -f "$TOOLS_PACKAGES_CONFIG" ]; then
+        say_error "Could not write packages.config."
+        return 1
+    fi
 fi
 
-# TODO: Not Implemented !!!
-# # Try install DotNet if not exists
-# if (-not ($DOTNET_COMMAND | Test-Path)) {
-#     Write-Host "Installing DotNet SDK v${SDK_VERSION_GLOBAL}..."
-#     mkdir $DOTNET_DIR -Force | Out-Null
-#    
-#     if (-not ($DOTNET_INSTALL_PATH | Test-Path))
-#     {
-#         Write-Verbose -Message "Downloading DotNet installer..."
-#         try {
-#             $wc = GetProxyEnabledWebClient
-#             $wc.DownloadFile($DOTNET_INSTALL_URL, $DOTNET_INSTALL_PATH)
-#         } catch {
-#             Throw "Could not download DotNet installer."
-#         }
-#     }
-#
-#     & $DOTNET_INSTALL_PATH -Version $SDK_VERSION_GLOBAL -InstallDir $DOTNET_DIR
-#
-#     if (-not ($DOTNET_COMMAND | Test-Path)){
-#         Throw "Could not install DotNet $SDK_VERSION_GLOBAL."
-#     }
-# }
+# Try install DotNet if not exists
+if [ ! -f "$DOTNET_COMMAND" ]; then
+    say "Installing DotNet SDK v$SDK_VERSION_GLOBAL..."
+    mkdir -p "$DOTNET_DIR"
+   
+    if [ ! -f "$DOTNET_INSTALL_PATH" ]; then
+        say_verbose "Downloading DotNet installer..."
+        download "$DOTNET_INSTALL_URL" "$DOTNET_INSTALL_PATH"
 
-exit 1
+        if [ ! -f "$DOTNET_INSTALL_PATH" ]; then
+            say_error "Could not download DotNet installer."
+            return 1
+        fi
+    fi
 
-# TODO: Not Implemented !!!
-# # Ensure DotNet runtime for Cake tool
-# if (-not ($DOTNET_RUNTIME_CAKE_PATH | Test-Path)) {
-#     Write-Host "Installing DotNet Runtime v${SDK_VERSION_CAKE} for Cake tool..."
-#     mkdir $DOTNET_DIR -Force | Out-Null
-#    
-#     if (-not ($DOTNET_INSTALL_PATH | Test-Path))
-#     {
-#         Write-Verbose -Message "Downloading DotNet installer..."
-#         try {
-#             $wc = GetProxyEnabledWebClient
-#             $wc.DownloadFile($DOTNET_INSTALL_URL, $DOTNET_INSTALL_PATH)
-#         } catch {
-#             Throw "Could not download DotNet installer."
-#         }
-#     }
-#
-#     & $DOTNET_INSTALL_PATH -SharedRuntime -Version $SDK_VERSION_CAKE -InstallDir $DOTNET_DIR
-#
-#     if (-not ($DOTNET_RUNTIME_CAKE_PATH | Test-Path)) {
-#         Throw "Could not install DotNet Runtime v${SDK_VERSION_GLOBAL} for Cake tool."
-#     }
-# }
+    exec "$DOTNET_INSTALL_PATH" --version "$SDK_VERSION_GLOBAL" --install-dir "$DOTNET_DIR"
+
+    if [ ! -f "$DOTNET_COMMAND" ]; then
+        say_error "Could not install DotNet $SDK_VERSION_GLOBAL."
+        return 1
+    fi
+fi
+
+# Ensure DotNet runtime for Cake tool
+if [ ! -d "$DOTNET_RUNTIME_CAKE_PATH" ]; then
+    say "Installing DotNet Runtime v$SDK_VERSION_CAKE for Cake tool..."
+    mkdir -p "$DOTNET_DIR"
+   
+    if [ ! -f "$DOTNET_INSTALL_PATH" ]; then
+        say_verbose "Downloading DotNet installer..."
+        download "$DOTNET_INSTALL_URL" "$DOTNET_INSTALL_PATH"
+
+        if [ ! -f "$DOTNET_INSTALL_PATH" ]; then
+            say_error "Could not download DotNet installer."
+            return 1
+        fi
+    fi
+
+    exec "$DOTNET_INSTALL_PATH" --shared-runtime --version "$SDK_VERSION_CAKE" --install-dir "$DOTNET_DIR"
+
+    if [ ! -d "$DOTNET_RUNTIME_CAKE_PATH" ]; then
+        say_error "Could not install DotNet Runtime v$SDK_VERSION_GLOBAL for Cake tool."
+        return 1
+    fi
+fi
 
 if [ -f "$DOTNET_INSTALL_PATH" ]; then
     rm "$DOTNET_INSTALL_PATH"
