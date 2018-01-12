@@ -6,22 +6,11 @@
 # Feel free to change this file to fit your needs.
 ##########################################################################
 
-# Define directories.
-SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-# TOOLS_DIR=$SCRIPT_DIR/tools
-# ADDINS_DIR=$TOOLS_DIR/Addins
-# MODULES_DIR=$TOOLS_DIR/Modules
-# NUGET_EXE=$TOOLS_DIR/nuget.exe
-# CAKE_EXE=$TOOLS_DIR/Cake/Cake.exe
-# PACKAGES_CONFIG=$TOOLS_DIR/packages.config
-# PACKAGES_CONFIG_MD5=$TOOLS_DIR/packages.config.md5sum
-# ADDINS_PACKAGES_CONFIG=$ADDINS_DIR/packages.config
-# MODULES_PACKAGES_CONFIG=$MODULES_DIR/packages.config
-
 #Default DotNet SDK minimal version 1.1.4
 SDK_VERSION_CAKE="1.0.4"
 SDK_VERSION_GLOBAL=$SDK_VERSION_CAKE
 
+# Define directories.
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 BUILD_DIR="$SCRIPT_DIR/build"
 TOOLS_DIR="$BUILD_DIR/tools"
@@ -38,61 +27,104 @@ TOOLS_PACKAGES_CONFIG="$TOOLS_DIR/packages.config"
 ADDINS_PACKAGES_CONFIG="$ADDINS_DIR/packages.config"
 MODULES_PACKAGES_CONFIG="$MODULES_DIR/packages.config"
 GLOBAL_JSON_PATH="$SCRIPT_DIR/global.json"
-
-# TODO: Not Implemented !!!
-# # Detecting global.json
-# if ($GLOBAL_JSON_PATH | Test-Path) {
-#     Write-Verbose -Message "Detecting .NET SDK version from global.json in ${GLOBAL_JSON_PATH}"
-#     $globalJson = Get-Content $GLOBAL_JSON_PATH | ConvertFrom-Json
-#
-#     if ($globalJson.sdk -and $globalJson.sdk.version) {
-#         $SDK_VERSION_GLOBAL = $globalJson.sdk.version
-#         Write-Verbose -Message "Detected .NET SDK version: ${SDK_VERSION_GLOBAL}"
-#     }
-#     else {
-#         Write-Verbose -Message "File global.json don't contain sdk version information"
-#     }
-# }
-
-# Define md5sum or md5 depending on Linux/OSX
+JQ_JSON_EXE="$TOOLS_DIR/jq"
 MD5_EXE=
+JQ_JSON_URL=
+
+# Define variables depending on Linux/OSX
 if [[ "$(uname -s)" == "Darwin" ]]; then
     MD5_EXE="md5 -r"
+    #JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-osx-x86"
+    JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-win32.exe"
 else
     MD5_EXE="md5sum"
+    #JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-linux-x86"
+    JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-win32.exe"
 fi
 
-# TODO: Not Implemented !!!
-# function WriteCakeToolsDotNetProject([string] $outputPath) {
-#     $content = @"
-# <Project Sdk="Microsoft.NET.Sdk">
-#   <PropertyGroup>
-#     <TargetFramework>netstandard1.6</TargetFramework>
-#   </PropertyGroup>
-#   <ItemGroup>
-#     <PackageReference Include="Cake.CoreCLR" Version="$CAKE_VERSION" />
-#   </ItemGroup>
-# </Project>
-# "@
-#     $content | Out-File $outputPath -Encoding "UTF8"
-# }
+has() {
+    hash "$1" > /dev/null 2>&1
+    return $?
+}
 
-echo "Preparing to run build script..."
+say() {
+    printf "%s\n" "$1"
+}
+
+say_verbose() {
+    printf "verbose: %s\n" "$1"
+}
+
+say_error() {
+    printf "error: %s\n" "$1"
+}
+
+if ! has "$MD5_EXE"; then
+    say_error "Tool $MD5_EXE is required and not present!"
+    exit 1
+fi
+
+if ! has curl; then
+    say_error "CURL is required and not present!"
+    exit 1
+fi
+
+download()
+{
+    say_verbose "Downloading $1..."
+    curl -Lsfo "$2" "$1"
+}
+
+# Ensure jq: https://stedolan.github.io/jq/download/
+if [ ! -f "$JQ_JSON_EXE" ]; then
+    download "$JQ_JSON_URL" "$JQ_JSON_EXE"
+    
+    if [ ! -f "$JQ_JSON_EXE" ]; then
+        say_error "Tool JQ is required, not present and not downloaded!"
+        exit 1
+    fi
+
+    chmod +x "$JQ_JSON_EXE"
+fi
+
+# Detecting global.json
+if [ -f "$GLOBAL_JSON_PATH" ]; then
+    say_verbose "Detecting .NET SDK version from global.json in $GLOBAL_JSON_PATH"
+    GLOBAL_JSON_VERSION=`cat "$GLOBAL_JSON_PATH" | exec "$JQ_JSON_EXE" -r '.sdk.version'`
+
+    if [[ "$GLOBAL_JSON_VERSION" != "" ]]; then
+        SDK_VERSION_GLOBAL=$GLOBAL_JSON_VERSION
+        say_verbose "Detected .NET SDK version: $SDK_VERSION_GLOBAL"
+    else
+        say_verbose "File global.json don't contain sdk version information"
+    fi
+fi
+
+write_cake_tools_dotnet_project() {
+cat > "$1" <<- EOF
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard1.6</TargetFramework>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Cake.CoreCLR" Version="$CAKE_VERSION" />
+    </ItemGroup>
+</Project>
+EOF
+}
+
+say "Preparing to run build script..."
 
 # Make sure the tools folder exist.
 if [ ! -d "$TOOLS_DIR" ]; then
-  mkdir "$TOOLS_DIR"
+    mkdir "$TOOLS_DIR"
 fi
 
-# TODO: Not Implemented !!!
-# # Make sure that packages.config exist.
-# if (!(Test-Path $TOOLS_PACKAGES_CONFIG)) {
-#     Write-Verbose -Message "Writing packages.config..."    
-#     try {        
-#         WriteCakeToolsDotNetProject -outputPath $TOOLS_PACKAGES_CONFIG } catch {
-#         Throw "Could not write packages.config."
-#     }
-# }
+# Make sure that packages.config exist.
+if [ ! -f "$TOOLS_PACKAGES_CONFIG" ]; then
+    say_verbose "Writing packages.config..."    
+    write_cake_tools_dotnet_project "$TOOLS_PACKAGES_CONFIG"
+fi
 
 # TODO: Not Implemented !!!
 # # Try install DotNet if not exists
@@ -117,6 +149,8 @@ fi
 #         Throw "Could not install DotNet $SDK_VERSION_GLOBAL."
 #     }
 # }
+
+exit 1
 
 # TODO: Not Implemented !!!
 # # Ensure DotNet runtime for Cake tool
@@ -194,7 +228,7 @@ export PATH="$DOTNET_DIR:$PATH"
 
 # Make sure that Cake has been installed.
 if [ ! -f "$CAKE_DLL" ]; then
-    echo "Could not find Cake.dll at '$CAKE_DLL'."
+    say "Could not find Cake.dll at '$CAKE_DLL'."
     exit 1
 fi
 
@@ -213,7 +247,7 @@ for i in "$@"; do
 done
 
 # Start Cake
-echo "Running build script..."
+say "Running build script..."
 exec "$DOTNET_COMMAND" $CAKE_DLL $SCRIPT "${CAKE_ARGUMENTS[@]}"
 
 # # TODO: Not Implemented !!!
