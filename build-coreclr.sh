@@ -71,29 +71,33 @@ restore_packages() {
     local TARGET_NAME=$1
     local PACKAGE_FILE=$2
 
-    say_verbose "restore_package: $1, $2"
-
     # Check for changes in packages.config and remove installed packages if true.
-    # $parentPath = Split-Path $packageFile -Parent
-    # $md5File = "$packageFile.md5sum"
-    # [string] $md5Hash = MD5HashFile($packageFile)
+    local PARENT_PATH=$(dirname "$PACKAGE_FILE")
+    local MD5_FILE="$PACKAGE_FILE.md5sum"
+    local CALCULATED_MD5=
+    local STORED_MD5=
 
-    # if((!(Test-Path $md5File)) -Or ($md5Hash -ne (Get-Content $md5File ))) {
-    #     Write-Verbose -Message "Missing or changed $targetName package.config hash..."
-    #     Get-ChildItem -Path $parentPath -Exclude packages.config,Cake.Bakery |
-    #         Remove-Item -Recurse
+    if [ -f "$MD5_FILE" ]; then
+        CALCULATED_MD5=$($MD5_EXE "$PACKAGE_FILE" | awk '{ print $1 }')
+        STORED_MD5=$(cat "$MD5_FILE" | sed 's/\r$//')
+    fi
 
-    #     Write-Verbose -Message "Restoring $targetName..."
-    #     & "$DOTNET_COMMAND" restore $packageFile --packages "$parentPath"
+    if [ ! -f "$MD5_FILE" ] || [ "$STORED_MD5" != "$CALCULATED_MD5" ]; then
+        say_verbose "Missing or changed $TARGET_NAME package.config hash..."
+        pushd "$PARENT_PATH" >/dev/null
+        find . -type d ! -name . ! -name 'Cake.Bakery' | xargs rm -rf
+        popd >/dev/null
 
-    #     if ($LASTEXITCODE -ne 0) {
-    #         Throw "An error occurred while restoring $targetName."
-    #     }
-    #     else
-    #     {
-    #         $md5Hash | Out-File $md5File -Encoding "ASCII"
-    #     }
-    # }
+        say_verbose "Restoring $TARGET_NAME..."
+        "$DOTNET_COMMAND" restore $PACKAGE_FILE --packages "$PARENT_PATH"
+
+        if [ $? -ne 0 ]; then
+            say_error "An error occurred while restoring $TARGET_NAME."
+            return 1
+        else
+            echo "$CALCULATED_MD5" | awk '{ print $1 }' >| "$MD5_FILE"
+        fi
+    fi
 }
 
 # Define variables depending on Linux/OSX
