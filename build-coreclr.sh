@@ -76,6 +76,11 @@ download()
 }
 
 # Ensure jq: https://stedolan.github.io/jq/download/
+if has jq; then
+    JQ_JSON_EXE=jq
+fi
+
+if ! has jq; then
 if [ ! -f "$JQ_JSON_EXE" ]; then
     download "$JQ_JSON_URL" "$JQ_JSON_EXE"
     
@@ -85,6 +90,7 @@ if [ ! -f "$JQ_JSON_EXE" ]; then
     fi
 
     chmod +x "$JQ_JSON_EXE"
+fi
 fi
 
 # Detecting global.json
@@ -144,6 +150,8 @@ if [ ! -f "$DOTNET_COMMAND" ]; then
             say_error "Could not download DotNet installer."
             return 1
         fi
+
+        chmod +x "$DOTNET_INSTALL_PATH"
     fi
 
     exec "$DOTNET_INSTALL_PATH" --version "$SDK_VERSION_GLOBAL" --install-dir "$DOTNET_DIR"
@@ -167,6 +175,8 @@ if [ ! -d "$DOTNET_RUNTIME_CAKE_PATH" ]; then
             say_error "Could not download DotNet installer."
             return 1
         fi
+
+        chmod +x "$DOTNET_INSTALL_PATH"
     fi
 
     exec "$DOTNET_INSTALL_PATH" --shared-runtime --version "$SDK_VERSION_CAKE" --install-dir "$DOTNET_DIR"
