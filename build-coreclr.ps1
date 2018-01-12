@@ -209,7 +209,7 @@ if (-not ($DOTNET_RUNTIME_CAKE_PATH | Test-Path)) {
     & $DOTNET_INSTALL_PATH -SharedRuntime -Version $SDK_VERSION_CAKE -InstallDir $DOTNET_DIR
 
     if (-not ($DOTNET_RUNTIME_CAKE_PATH | Test-Path)) {
-        Throw "Could not install DotNet Runtime v${SDK_VERSION_GLOBAL} for Cake tool."
+        Throw "Could not install DotNet Runtime v${SDK_VERSION_CAKE} for Cake tool."
     }
 }
 
