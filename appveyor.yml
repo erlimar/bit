@@ -21,7 +21,7 @@ test_script:
   - ps: '& .\build-coreclr.ps1 -Target Test -Configuration ${ENV:CONFIGURATION}'
 
 after_test:
-  - ps: '& .\build-coreclr.ps1 -Target Pack -Configuration ${ENV:CONFIGURATION} -Version-Suffix="dev-b${ENV:APPVEYOR_BUILD_NUMBER}"'
+  - ps: '& .\build-coreclr.ps1 -Target Pack -Configuration ${ENV:CONFIGURATION} -Version-Suffix="dev-win-b${ENV:APPVEYOR_BUILD_NUMBER}"'
 
 artifacts:
   - path: '.\dist\*.nupkg'
