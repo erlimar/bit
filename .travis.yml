@@ -38,7 +38,7 @@ matrix:
         - CONFIGURATION=Release
 
 script:
-  - ./build-coreclr.sh
-  - ./build-coreclr.sh -Target Build -Configuration ${CONFIGURATION}
-  - ./build-coreclr.sh -Target Test -Configuration ${CONFIGURATION}
-  - ./build-coreclr.sh -Target Pack -Configuration ${CONFIGURATION} -Version-Suffix="dev-b${TRAVIS_BUILD_NUMBER}"
+  - echo ./build-coreclr.sh -target=Build -configuration=${CONFIGURATION}
+  - ./build-coreclr.sh -target=Build -configuration=${CONFIGURATION}
+  - ./build-coreclr.sh -target=Test -configuration=${CONFIGURATION}
+  - ./build-coreclr.sh -target=Pack -configuration=${CONFIGURATION} -version-suffix=dev-b{$TRAVIS_BUILD_NUMBER}
