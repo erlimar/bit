@@ -154,7 +154,7 @@ if [ ! -f "$DOTNET_COMMAND" ]; then
         chmod +x "$DOTNET_INSTALL_PATH"
     fi
 
-    exec "$DOTNET_INSTALL_PATH" --version "$SDK_VERSION_GLOBAL" --install-dir "$DOTNET_DIR"
+    "$DOTNET_INSTALL_PATH" --version "$SDK_VERSION_GLOBAL" --install-dir "$DOTNET_DIR"
 
     if [ ! -f "$DOTNET_COMMAND" ]; then
         say_error "Could not install DotNet $SDK_VERSION_GLOBAL."
@@ -179,7 +179,7 @@ if [ ! -d "$DOTNET_RUNTIME_CAKE_PATH" ]; then
         chmod +x "$DOTNET_INSTALL_PATH"
     fi
 
-    exec "$DOTNET_INSTALL_PATH" --shared-runtime --version "$SDK_VERSION_CAKE" --install-dir "$DOTNET_DIR"
+    "$DOTNET_INSTALL_PATH" --shared-runtime --version "$SDK_VERSION_CAKE" --install-dir "$DOTNET_DIR"
 
     if [ ! -d "$DOTNET_RUNTIME_CAKE_PATH" ]; then
         say_error "Could not install DotNet Runtime v$SDK_VERSION_GLOBAL for Cake tool."
