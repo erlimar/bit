@@ -29,6 +29,7 @@ MODULES_PACKAGES_CONFIG="$MODULES_DIR/packages.config"
 GLOBAL_JSON_PATH="$SCRIPT_DIR/global.json"
 JQ_JSON_EXE="$TOOLS_DIR/jq"
 MD5_EXE=
+MD5_FLAG
 JQ_JSON_URL=
 
 has() {
@@ -78,7 +79,7 @@ restore_packages() {
     local STORED_MD5=
 
     if [ -f "$MD5_FILE" ]; then
-        CALCULATED_MD5=$($MD5_EXE "$PACKAGE_FILE" | awk '{ print $1 }')
+        CALCULATED_MD5=$($MD5_EXE $MD5_FLAG "$PACKAGE_FILE" | awk '{ print $1 }')
         STORED_MD5=$(cat "$MD5_FILE" | sed 's/\r$//')
     fi
 
@@ -102,7 +103,8 @@ restore_packages() {
 
 # Define variables depending on Linux/OSX
 if [[ "$(uname -s)" == "Darwin" ]]; then
-    MD5_EXE="md5 -r"
+    MD5_EXE="md5"
+    MD5_FLAG="-r"
     JQ_JSON_URL="https://github.com/stedolan/jq/releases/download/jq-1.4/jq-osx-x86"
 else
     MD5_EXE="md5sum"
