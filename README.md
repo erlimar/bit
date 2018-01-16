@@ -5,6 +5,27 @@
 
 Uma ferramenta mínima, extensível, independente e auto-suficiente para o desenvolvimento de software multiplataforma.
 
+Build on Windows:
+-----------------
+
+```powershell
+# Show help information
+$ .\build-coreclr.ps1 --help
+
+# Show build options
+$ .\build-coreclr.ps1 --showdescription
+```
+
+Build on Unix:
+--------------
+```sh
+# Show help information
+$ ./build-coreclr.sh --help
+
+# Show build options
+$ ./build-coreclr.sh --showdescription
+```
+
 Premissas:
 ----------
 
@@ -16,4 +37,4 @@ Premissas:
 
 * Ser auto-suficiente para que resolva suas dependências e extensões na execução de um único script shell sem argumentos;
 
-> [Mais detalhes no arquivo IDEA.md.](IDEA.md)
+> [Mais detalhes no arquivo IDEA.md.](IDEA.md) e [DRAFT.md](DRAFT.md)
