@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RootNamespace>E5R.Tools.Bit</RootNamespace>
+    <AssemblyName>bit</AssemblyName>
+    <RuntimeIdentifiers>win10-x64;debian-x64;linux-x64;osx.10.12-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\License.txt" />
+    <EmbeddedResource Include="Resources\Others\BitLog.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\E5R.Sdk.Bit\E5R.Sdk.Bit.csproj" />
+    <ProjectReference Include="..\E5R.Tools.Bit.Engine\E5R.Tools.Bit.Engine.csproj" />
+  </ItemGroup>
+
+</Project>

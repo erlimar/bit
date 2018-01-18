@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <AssemblyName>E5R.Test.Commons</AssemblyName>    
+    <RootNamespace>E5R.Test.Commons</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\E5R.Tools.Bit.Engine\E5R.Tools.Bit.Engine.csproj" />
+  </ItemGroup>
+
+</Project>

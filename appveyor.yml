@@ -1,0 +1,28 @@
+# Copyright (c) E5R Development Team. All rights reserved.
+# Licensed under the Apache License, Version 2.0. More license information in LICENSE.txt.
+
+version: 1.0.0-dev-b{build}
+image: Visual Studio 2017
+
+platform:
+- x64
+
+configuration:
+- Debug
+- Release
+
+cache:
+  - .\build\.dotnetsdk
+
+build_script:
+  - ps: '& .\build-coreclr.ps1 -Target Build -Configuration ${ENV:CONFIGURATION}'
+
+test_script:
+  - ps: '& .\build-coreclr.ps1 -Target Test -Configuration ${ENV:CONFIGURATION}'
+
+after_test:
+  - ps: '& .\build-coreclr.ps1 -Target Pack -Configuration ${ENV:CONFIGURATION} -Version-Suffix="dev-win-b${ENV:APPVEYOR_BUILD_NUMBER}"'
+
+artifacts:
+  - path: '.\dist\*.nupkg'
+  - path: '.\dist\*.zip'

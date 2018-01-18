@@ -1,0 +1,43 @@
+# Copyright (c) E5R Development Team. All rights reserved.
+# Licensed under the Apache License, Version 2.0. More license information in LICENSE.txt.
+
+language: c
+
+addons:  
+  apt:
+    packages:
+    - libunwind8
+    - libunwind8-dev
+    - gettext
+    - libicu-dev
+    - liblttng-ust-dev
+    - libcurl4-openssl-dev
+    - libssl-dev
+    - uuid-dev
+    - unzip
+
+matrix:
+  include:
+    - os: linux # Ubuntu 14.04, Debug
+      dist: trusty
+      sudo: required
+      env:
+        - CONFIGURATION=Debug
+    - os: linux # Ubuntu 14.04, Release
+      dist: trusty
+      sudo: required
+      env:
+        - CONFIGURATION=Release
+    - os: osx # OSX 10.12, Debug
+      osx_image: xcode8.3
+      env:
+        - CONFIGURATION=Debug
+    - os: osx # OSX 10.12, Release
+      osx_image: xcode8.3
+      env:
+        - CONFIGURATION=Release
+
+script:
+  - ./build-coreclr.sh -target=Build -configuration=${CONFIGURATION}
+  - ./build-coreclr.sh -target=Test -configuration=${CONFIGURATION}
+  - ./build-coreclr.sh -target=Pack -configuration=${CONFIGURATION} -version-suffix=dev-unix-b${TRAVIS_BUILD_NUMBER}
