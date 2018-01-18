@@ -29,11 +29,11 @@ matrix:
       env:
         - CONFIGURATION=Release
     - os: osx # OSX 10.12, Debug
-      osx_image: xcode8.1
+      osx_image: xcode8.3
       env:
         - CONFIGURATION=Debug
     - os: osx # OSX 10.12, Release
-      osx_image: xcode8.1
+      osx_image: xcode8.3
       env:
         - CONFIGURATION=Release
 
