@@ -25,20 +25,36 @@ develop | [![Build status](https://ci.appveyor.com/api/projects/status/ml0ktjids
 
 ```powershell
 # Show help information
-$ .\build-coreclr.ps1 --help
+$ .\build.ps1 --help
 
 # Show build options
-$ .\build-coreclr.ps1 --showdescription
+$ .\build.ps1 --showdescription
 ```
 
 ### Building on Unix:
 
 ```sh
 # Show help information
-$ ./build-coreclr.sh --help
+$ ./build.sh --help
 
 # Show build options
-$ ./build-coreclr.sh --showdescription
+$ ./build.sh --showdescription
 ```
 
 > Mais detalhes nos arquivos [IDEA.md.](IDEA.md) e [DRAFT.md](DRAFT.md)
+
+## Debugging on Visual Studio Code
+
+```powershell
+.\build.ps1 -Target=Bootstrap
+
+# To ensure that you use the correct installation of
+# the .NET SDK in "build/.dotnetsdk"
+$env:Path = (Join-Path (Pwd) "build/.dotnetsdk") + ";${env:Path}"
+
+# Launches the Visual Studio Code
+code .
+```
+
+__TODO:__ Criar a configuração de depuração
+__TODO:__ Criar a tarefa de build

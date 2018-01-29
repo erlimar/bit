@@ -190,4 +190,7 @@ Task("Pack")
 Task("Default")
     .IsDependentOn("Test");
 
+Task("Bootstrap")
+    .Does(() => Information("Building system ready!") );
+
 RunTarget(target);
