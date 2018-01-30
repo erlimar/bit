@@ -52,7 +52,8 @@ quanto escrever o próprio software.
 
 A documentação está contida nesse próprio projeto, até mesmo as documentações que
 estarão disponível no site oficial da ferramenta (ainda não existe) são geradas à partir
-de documentos neste repositório. Dessa forma, você deve seguir o [Guida do Desenvolvedor][developer-guide] para contribuir também com a documentação.
+de documentos neste repositório. Dessa forma, você deve seguir o [Guida do Desenvolvedor][developer-guide] para contribuir também com a documentação, além de conhecer o
+[Fluxo de Trabalho para Contribuição][contribution-workflow].
 
 ### Testando e analisando a ferramenta
 
@@ -79,4 +80,5 @@ Você precisará ler mais sobre o assunto em [Guia de Abertura de Chamados][issu
 [license-apache2]: http://www.apache.org/licenses/LICENSE-2.0
 [project-home]: https://github.com/bits-net
 [developer-guide]: developer-guide.md
+[contribution-workflow]: contribution-workflow.md
 [issue-guide]: issue-guide.md
