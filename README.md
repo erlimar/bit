@@ -43,18 +43,103 @@ $ ./build.sh --showdescription
 
 > Mais detalhes nos arquivos [IDEA.md.](IDEA.md) e [DRAFT.md](DRAFT.md)
 
-## Debugging on Visual Studio Code
+## Desenvolvendo com Visual Studio Code
+
+### Pré-requisitos
+
+1. [PowerShell](https://github.com/PowerShell/PowerShell)
+2. [Visual Studio Code](https://github.com/Microsoft/vscode)
+3. [C# para Visual Studio Code](https://github.com/OmniSharp/omnisharp-vscode)
+
+### Etapas de configuração
+
+Considerando que você já adquiriu o código do __E5R.Tools.Bit__ e está na
+pasta do mesmo em uma sessão do __PowerShell__:
+
+#### Configure os componentes .NET e aba o VSCode:
 
 ```powershell
+# Se tiver problemas com a política de execução de scripts
+Set-ExecutionPolicy Bypass CurrentUser
+
+# Para baixar os componentes .NET necessários
 .\build.ps1 -Target=Bootstrap
 
-# To ensure that you use the correct installation of
-# the .NET SDK in "build/.dotnetsdk"
+# Para garantir que você está usando a instalação
+# correta do .NET SDK em "build/.dotnetsdk"
 $env:Path = (Join-Path (Pwd) "build/.dotnetsdk") + ";${env:Path}"
 
-# Launches the Visual Studio Code
+# Para abrir o Visual Studio Code
 code .
 ```
 
-__TODO:__ Criar a configuração de depuração
-__TODO:__ Criar a tarefa de build
+#### Crie a tarefa de build
+
+1. Pressione `[CTRL + P]` (no Windows  Linux), ou `[Command + P]` (no macOS), e
+selecione a opção __"Tasks: Configure Default Build Task"__;
+
+![](doc/assets/create-build-task-step1.png)
+
+2. Escolha __"Create tasks.json file from template"__;
+
+![](doc/assets/create-build-task-step2.png)
+
+3. Em seguida escolha a opção corresponente ao __".NET Core ..."__;
+
+![](doc/assets/create-build-task-step3.png)
+
+4. Por fim, isso criará o aquivo `.vscode/tasks.json`, conforme abaixo:
+
+![](doc/assets/create-build-task-step4.png)
+
+> __PS:__ Esse diretório (`.vscode`) é ignorado nos _commits_ do git
+> para o projeto (veja o arquivo `.gitignore`), por isso cada desenvolvedor deve
+> configurá-lo novamente. Isso é também muito importante porque o editor/IDE é
+> uma escolha de cada desenvolvedor e não uma restrição do projeto.
+
+#### Crie a configuração de depuração
+
+1. Clique no ícone _Debug_ ou pressione `CTRL + Shift + D`(no Windows e Linux), ou
+`[Command + Shif + D]` no macOS);
+
+![](doc/assets/create-config-debug-step1.png)
+
+2. Então clique no ícone _Configure or Fix 'launch.json'_ e escolha a opção _.NET Core_;
+
+3. Isso criará o aquivo `.vscode/launch.json`, conforme abaixo:
+
+![](doc/assets/create-config-debug-step2.png)
+
+Sugerimos remover todas as outras configurações, deixando somente a primeira:
+_.NET Core Launch (console)_, e também sugerimos nomeá-la de __E5R.Tools.Bit (Debug)__.
+
+4. Ajuste o valor `program` no `JSON` conforme abaixo:
+
+```json
+"program": "${workspaceFolder}/src/E5R.Tools.Bit/bin/Debug/netcoreapp2.0/bit.dll"
+```
+
+5. Por fim você deve terminar com um arquivo `.vscode/launch.json` semelhante a este:
+
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "E5R.Tools.Bit (Debug)",
+      "type": "coreclr",
+      "request": "launch",
+      "preLaunchTask": "build",
+      "program": "${workspaceFolder}/src/E5R.Tools.Bit/bin/Debug/netcoreapp2.0/bit.dll",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "console": "internalConsole",
+      "stopAtEntry": false,
+      "internalConsoleOptions": "openOnSessionStart"
+    }
+  ]
+}
+```
+
+Isso deve ser o suficiente para você coloca seu `break point` e rodar sua cópia de
+__E5R.Tools.Bit__ em modo de depuração.
