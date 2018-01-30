@@ -141,5 +141,5 @@ _.NET Core Launch (console)_, e também sugerimos nomeá-la de __E5R.Tools.Bit (
 }
 ```
 
-Isso deve ser o suficiente para você coloca seu `break point` e rodar sua cópia de
+Isso deve ser o suficiente para você colocar seu `break point` e rodar sua cópia de
 __E5R.Tools.Bit__ em modo de depuração.
