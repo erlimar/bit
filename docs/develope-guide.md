@@ -1,4 +1,0 @@
-Guia do Desenvolvedor
-=====================
-
-## TODO...
