@@ -100,11 +100,13 @@ Este documento ainda é bem básico, e mesmo depois que incluirmos mais conteúd
 descrever tudo que você precisa para tirar todas suas dúvidas de como você pode contribuir com
 o projeto.
 
-Mas nós estamos à disposição para conversar sobre o assunto. Sinta-se à vontade para falar
+Mas nós estamos à disposição para conversar sobre o assunto.
+Sinta-se à vontade para falar
 conosco em um dos canais abaixo:
 
-* [Nosso canal no Gitter][gitter]
-* [Nos siga no Twitter][twitter]
+[![Junte-se ao chat em https://gitter.im/e5r/bit](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/e5r/bit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+[![Siga @erlimar](https://img.shields.io/badge/Twitter-Follow%20%40erlimar-green.svg)](https://twitter.com/intent/follow?screen_name=erlimar)
 
 <!-- Links -->
 
