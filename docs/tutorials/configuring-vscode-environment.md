@@ -36,7 +36,7 @@ para garantir a instalação dos componentes [.NET Core][dotnet] e [Cake][cake] 
 > Isso demora um pouco dependendo da velocidade de sua conexão com a internet,
 > mas só da primeira vez, nas próximas tende ser bem mais rápido.
 
-Caso você se depare com um erro parecido com esse abaixo:
+Caso você se depare com um erro parecido com esse:
 
 ```
 .\build.ps1 : File ...\bit\build.ps1 cannot be loaded because running
@@ -95,7 +95,7 @@ Já com o [Visual Studio Code][vscode] aberto, vamos criar as configurações qu
 
 ![](../assets/create-build-task-step2.png)
 
-3. Em seguida escolha a opção corresponente ao __".NET Core ..."__;
+3. Em seguida escolha a opção correspondente ao __".NET Core ..."__;
 
 ![](../assets/create-build-task-step3.png)
 
