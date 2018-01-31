@@ -13,6 +13,12 @@ Sistema Operacional:
     Nome:       Windows | macOS | Linux (Distribuição)
     Versão:     000
     Plataforma: x86 | x64
+
+Equipamento: (opcional)
+
+    Tipo:       PC | Apple | Notebook | Tablet | Virual | Etc.
+    Marca:      Marca do equipamento
+    Modelo:     Modelo do equipamento
 ```
 
 ## Passos para reprodução do problema
