@@ -1,5 +1,5 @@
-Contribuindo para E5R.Tools.Bit
-===============================
+Guia de Contribuição para E5R.Tools.Bit
+=======================================
 
 Este documento descreve como alguém pode contribuir com o projeto __E5R.Tools.Bit__, além de definir as diretrizes que devem ser seguidas por cada um que contribui.
 
