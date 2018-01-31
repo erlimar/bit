@@ -12,33 +12,32 @@ Uma ferramenta mínima, extensível, independente e auto-suficiente para o desen
 
 * Ser auto-suficiente para que resolva suas dependências e extensões na execução de um único script shell sem argumentos;
 
-## Build
-
-### Build Status
+## Build Status
 
 Branch | AppVeyor | Travis-CI
 ------ | -------- | ---------
 master | [![Build status](https://ci.appveyor.com/api/projects/status/ml0ktjidsvop9ods/branch/master?svg=true)](https://ci.appveyor.com/project/erlimar/bit/branch/master) | [![Build Status](https://travis-ci.org/e5r/bit.svg?branch=master)](https://travis-ci.org/e5r/bit)
 develop | [![Build status](https://ci.appveyor.com/api/projects/status/ml0ktjidsvop9ods/branch/develop?svg=true)](https://ci.appveyor.com/project/erlimar/bit/branch/develop) | [![Build Status](https://travis-ci.org/e5r/bit.svg?branch=develop)](https://travis-ci.org/e5r/bit)
 
-### Building on Windows:
+## Outras informações
 
-```powershell
-# Show help information
-$ .\build.ps1 --help
+Leia o tutorial ["Construindo o E5R.Tools.Bit"][building] para aprender a construir a ferramenta.
 
-# Show build options
-$ .\build.ps1 --showdescription
-```
+Você também vai gostar de conhecer nosso [Guia de Contribuição para E5R.Tools.Bit][contributing]
+bem como nosso [Guia do Desenvolvedor][developer-guide].
 
-### Building on Unix:
+Sem contar que temos ainda [uma visão geral por tráz da idéia que originou essa ferramenta][idea], e
+mais [alguns rascunhos esperando para ser implementados][draft].
 
-```sh
-# Show help information
-$ ./build.sh --help
+E não podia faltar os canais oficiais para nossa comunicação:
 
-# Show build options
-$ ./build.sh --showdescription
-```
+[![Junte-se ao chat em https://gitter.im/e5r/bit](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/e5r/bit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-> Mais detalhes nos arquivos [IDEA.md.](IDEA.md) e [DRAFT.md](DRAFT.md)
+[![Siga @erlimar](https://img.shields.io/badge/Twitter-Follow%20%40erlimar-green.svg)](https://twitter.com/intent/follow?screen_name=erlimar)
+
+<!-- Links -->
+[building]: docs/tutorials/building.md
+[contributing]: docs/contributing.md
+[developer-guide]: docs/developer-guide.md
+[idea]: IDEA.md
+[draft]: DRAFT.md
