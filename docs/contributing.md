@@ -112,7 +112,7 @@ conosco em um dos canais abaixo:
 
 [license]: ../LICENSE
 [license-apache2]: http://www.apache.org/licenses/LICENSE-2.0
-[project-home]: https://github.com/bits-net
+[project-home]: https://github.com/e5r/bit
 [developer-guide]: developer-guide.md
 [contribution-workflow]: contribution-workflow.md
 [issue-guide]: issue-guide.md
