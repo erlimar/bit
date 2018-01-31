@@ -27,7 +27,7 @@ Nós queremos que essa ferramenta seja útil ao maior número de pessoas possív
 por isso, quando você faz uma divulgação da mesma está contribuindo com esse nosso
 objetivo de forma direta.
 
-Você pode divulgar a ferramenta nas suas redes sociais (Twitter, Facebook, Instagran, etc.)
+Você pode divulgar a ferramenta nas suas redes sociais (Twitter, Facebook, Instagram, etc.)
 e em todos os meios que quiser.
 
 O que pedimos é que sempre que você divulgar a ferramenta nas redes sociais, faça
@@ -36,8 +36,9 @@ e consequentemente indexar todo o conteúdo e tornar possível no futuro encontr
 divulgação.
 
 Uma outra forma de divulgar bastante apreciada, é você criar artigos e posts em seus
-blogs pessoais, sempre fazendo referência aos links da ferramenta para direcionar o
-tráfego de possíveis novos adeptos. Segue alguns links:
+blogs pessoais, neles além de só divulgar a ferramenta, você poderia demonstrar seu uso em
+projetos seus ou expressar sua opinião sobre o assunto, sempre fazendo referência aos links da
+ferramenta para direcionar o tráfego de possíveis novos adeptos. Segue alguns links:
 
 * [Home page do projeto][project-home]
 
@@ -69,10 +70,41 @@ não sendo um problema em si. Às vezes uma nova área que ainda não é coberta
 uma nova forma de aplicar uma funcionalidade. Então você também pode nos fazer essa
 sugestão de melhoria através de uma `issue`.
 
-Você precisará ler mais sobre o assunto em [Guia de Abertura de Chamados][issue-guide].
+Caso você não queira ou não tenha tempo de procurar por defeitos, ou analisar a ferramenta
+para sugerir novas funcionalidades, você pode ao menos baixar o projeto em sua máquina e
+executar os testes automatizados. Dessa forma nós podemos garantir que a feframenta está
+funcionando adequadamente em uma maior variedade de configurações de hosts. Aí, se você
+encontrar um problema que os testes relatem, você pode nos informar isso numa `issue`.
 
-### Estudando a ferramenta e sugerindo melhorias
+Você precisará ler mais sobre como abrir uma `issue` em nosso [Guia para Abertura de Incidentes][issue-guide].
+
 ### Construindo a ferramenta
+
+Deveras uma forma mais divertida que você pode encontrar para contribuir com o projeto
+é ajudando a codificá-la. Leia o [Guida do Desenvolvedor][developer-guide], lá você aprenderá
+o básico de como obter sua cópia do código fonte, configurar seu ambiente, e depurar
+o código.
+
+Nesse ponto você pode começar a brincar e se divertir da mesma forma que nós. Quando você
+achar que já consegue entender o mínimo das entranhas do software, tente fazer algumas
+pequenas mudanças a seu gosto.
+
+Já familiarizado com a ferramenta e como seu código é construído, nós pedimos que você esteja
+inteirado com nosso [Fluxo de Trabalho para Contribuição][contribution-workflow], para então
+nos ajudar a corrigir os problemas e implementar as novas funcionalidades que estarão
+documentadas nas `issues` do projeto.
+
+## Conclusão
+
+Este documento ainda é bem básico, e mesmo depois que incluirmos mais conteúdo não conseguiremos
+descrever tudo que você precisa para tirar todas suas dúvidas de como você pode contribuir com
+o projeto.
+
+Mas nós estamos à disposição para conversar sobre o assunto. Sinta-se à vontade para falar
+conosco em um dos canais abaixo:
+
+* [Nosso canal no Gitter][gitter]
+* [Nos siga no Twitter][twitter]
 
 <!-- Links -->
 
@@ -82,3 +114,5 @@ Você precisará ler mais sobre o assunto em [Guia de Abertura de Chamados][issu
 [developer-guide]: developer-guide.md
 [contribution-workflow]: contribution-workflow.md
 [issue-guide]: issue-guide.md
+[gitter]: https://gitter.im/e5r/bit
+[twitter]: https://twitter.com/erlimar

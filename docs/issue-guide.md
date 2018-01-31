@@ -1,6 +1,5 @@
-Guia de Abertura de Chamados
-============================
+Guia para Abertura de Incidentes
+================================
 
 ## TODO...
 
-_Mudar esse nome!_
