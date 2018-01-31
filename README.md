@@ -31,9 +31,9 @@ mais [alguns rascunhos esperando para ser implementados][draft].
 
 E não podia faltar os canais oficiais para nossa comunicação:
 
-[![Junte-se ao chat em https://gitter.im/e5r/bit](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/e5r/bit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Junte-se ao chat em https://gitter.im/e5r/bit](https://badges.gitter.im/chat.svg)](https://gitter.im/e5r/bit?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![Siga @erlimar](https://img.shields.io/badge/Twitter-Follow%20%40erlimar-green.svg)](https://twitter.com/intent/follow?screen_name=erlimar)
+[![Siga @erlimar](https://img.shields.io/badge/Twitter-%20%40erlimar-green.svg)](https://twitter.com/intent/follow?screen_name=erlimar)
 
 <!-- Links -->
 [building]: docs/tutorials/building.md
