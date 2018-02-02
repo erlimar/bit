@@ -1,18 +1,12 @@
 // Copyright (c) E5R Development Team. All rights reserved.
 // Licensed under the Apache License, Version 2.0. More license information in LICENSE.txt.
 
-const string PRODUCT_NAME = "bit";
-const string PRODUCT_VERSION = "1.0.0";
+// Load scripts
+#load "./build/options.cake"
+#load "./build/utils.cake"
 
-var outputDirectory = MakeAbsolute(Directory("./dist/"));
-var outputAppRootDirectory = MakeAbsolute(Directory("./dist/app"));
-var outputAppDirectory = MakeAbsolute(Directory("./dist/app/{runtime}"));
-var target = Argument("target", "Default");
-var configuration = Argument("configuration", "Debug");
-var versionSuffix = Argument("version-suffix", "");
-var productVersion = PRODUCT_VERSION + (!string.IsNullOrEmpty(versionSuffix)
-    ? string.Format("-{0}", versionSuffix)
-    : string.Empty);
+var options = new BuildOptions(Context);
+var utils = new BuildUtils(Context, options);
 
 Task("Clean")
     .Does(() =>
@@ -23,18 +17,8 @@ Task("Clean")
         Force = true
     };
 
-    var directories = Enumerable.Empty<DirectoryPath>()
-        .Concat(GetDirectories(outputDirectory.FullPath))
-        .Concat(GetDirectories(string.Format("./src/**/bin/{0}", configuration)))
-        .Concat(GetDirectories(string.Format("./src/**/obj/{0}", configuration)))
-        .Concat(GetDirectories(string.Format("./test/**/bin/{0}", configuration)))
-        .Concat(GetDirectories(string.Format("./test/**/obj/{0}", configuration)));
-
-    var files = Enumerable.Empty<FilePath>()
-        .Concat(GetFiles("./src/**/obj/*.nuspec"));
-
-    DeleteDirectories(directories, settings);
-    DeleteFiles(files);
+    DeleteDirectories(utils.GetDirectoriesToClean(), settings);
+    DeleteFiles(utils.GetFilesToClean());
 });
 
 Task("FullClean")
@@ -46,14 +30,7 @@ Task("FullClean")
         Force = true
     };
 
-    var directories = Enumerable.Empty<DirectoryPath>()
-        .Concat(GetDirectories(outputDirectory.FullPath))
-        .Concat(GetDirectories("./src/**/bin"))
-        .Concat(GetDirectories("./src/**/obj"))
-        .Concat(GetDirectories("./test/**/bin"))
-        .Concat(GetDirectories("./test/**/obj"));
-
-    DeleteDirectories(directories, settings);
+    DeleteDirectories(utils.GetDirectoriesToFullClean(), settings);
 });
 
 Task("Restore")
@@ -74,7 +51,7 @@ Task("Build")
 {
     var settings = new DotNetCoreBuildSettings
     {
-        Configuration = configuration
+        Configuration = options.Configuration
     };
 
     DotNetCoreBuild("E5R.Bit.sln", settings);
@@ -86,7 +63,7 @@ Task("Test")
 {
     var settings = new DotNetCoreTestSettings
     {
-        Configuration = configuration,
+        Configuration = options.Configuration,
         NoBuild = false
     };
 
@@ -104,19 +81,19 @@ Task("Pack-Sdk")
 {
     var settings = new DotNetCorePackSettings
     {
-        Configuration = configuration,
+        Configuration = options.Configuration,
         IncludeSource = false,
         NoBuild = true,
-        IncludeSymbols = configuration.ToLower() == "debug",
-        OutputDirectory = outputDirectory
+        IncludeSymbols = options.Configuration.ToLower() == "debug",
+        OutputDirectory = options.OutputDirectory
     };
 
-    if(!string.IsNullOrEmpty(versionSuffix))
+    if(!string.IsNullOrEmpty(options.VersionSuffix))
     {
-        settings.VersionSuffix = versionSuffix;
+        settings.VersionSuffix = options.VersionSuffix;
     }
 
-    EnsureDirectoryExists(outputDirectory);
+    EnsureDirectoryExists(options.OutputDirectory);
 
     var projects = GetFiles("./src/E5R.Sdk.*/E5R.Sdk.*.csproj");
 
@@ -131,30 +108,30 @@ Task("Publish-App")
 {
     var project = MakeAbsolute(File("./src/E5R.Tools.Bit/E5R.Tools.Bit.csproj"));
     var runtimes = XmlPeek(project.FullPath, "/Project/PropertyGroup/RuntimeIdentifiers");
-    var args = string.Format("--self-contained --configuration \"{0}\"", configuration);
+    var args = string.Format("--self-contained --configuration \"{0}\"", options.Configuration);
     var settings = new DeleteDirectorySettings
     {
         Recursive = true,
         Force = true
     };
 
-    if(!string.IsNullOrEmpty(versionSuffix))
+    if(!string.IsNullOrEmpty(options.VersionSuffix))
     {
-        args += string.Format(" --version-suffix \"{0}\"", versionSuffix);
+        args += string.Format(" --version-suffix \"{0}\"", options.VersionSuffix);
     }
 
     args += " --output \"{output}\"";
     args += " --runtime \"{runtime}\"";
 
-    if(DirectoryExists(outputAppRootDirectory.FullPath))
+    if(DirectoryExists(options.OutputAppRootDirectory.FullPath))
     {
-        DeleteDirectory(outputAppRootDirectory, settings);
+        DeleteDirectory(options.OutputAppRootDirectory, settings);
     }
 
     foreach(var runtime in runtimes.Split(';'))
     {
         var toolArgs = args;
-        var outputPath = outputAppDirectory.FullPath.Replace("{runtime}", runtime);
+        var outputPath = options.OutputAppDirectory.FullPath.Replace("{runtime}", runtime);
 
         toolArgs = toolArgs.Replace("{output}", outputPath);
         toolArgs = toolArgs.Replace("{runtime}", runtime);
@@ -170,12 +147,12 @@ Task("Pack-App")
     .Does(() =>
 {
     var directories = Enumerable.Empty<DirectoryPath>()
-        .Concat(GetDirectories(System.IO.Path.Combine(outputAppRootDirectory.FullPath, "*")));
+        .Concat(GetDirectories(System.IO.Path.Combine(options.OutputAppRootDirectory.FullPath, "*")));
 
     foreach(var dir in directories)
     {
         var zipFile = string.Format("{0}-{1}-{2}.zip", 
-            PRODUCT_NAME, productVersion,
+            options.ProductName, options.ProductVersion,
             System.IO.Path.GetFileName(dir.FullPath));
         var zipPath = File(string.Format("{0}/../{1}", System.IO.Path.GetDirectoryName(dir.FullPath), zipFile));
 
@@ -191,6 +168,13 @@ Task("Default")
     .IsDependentOn("Test");
 
 Task("Bootstrap")
-    .Does(() => Information("Building system ready!") );
+    .Does(() => {
+        Information("Building system ready!");
 
-RunTarget(target);
+        foreach(var dir in utils.GetDirectoriesToClean())
+        {
+            Warning(dir);
+        }
+     } );
+
+RunTarget(options.Target);
