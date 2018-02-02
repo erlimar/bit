@@ -9,9 +9,11 @@ public class BuildOptions
     // XmlPeek(project.FullPath, "/Project/PropertyGroup/Name|Version");
     const string PRODUCT_NAME = "bit";
     const string PRODUCT_VERSION = "1.0.0";
+    const string BOOST_VESION = "1.55.0";
 
     private readonly ICakeContext _ctx;
 
+    public DirectoryPath BuildRootDirectory { get; private set; }
     public DirectoryPath OutputDirectory { get; private set; }
     public DirectoryPath OutputAppRootDirectory { get; private set; }
     public DirectoryPath OutputAppDirectory { get; private set; }
@@ -20,6 +22,7 @@ public class BuildOptions
     public string VersionSuffix { get; private set; }
     public string ProductVersion { get; private set; }
     public string ProductName { get; private set; } = PRODUCT_NAME;
+    public string BoostVersion { get; private set; } = BOOST_VESION;
 
     public BuildOptions(ICakeContext ctx)
     {
@@ -30,6 +33,7 @@ public class BuildOptions
 
     private void MakeOptions()
     {
+        BuildRootDirectory = _ctx.MakeAbsolute(_ctx.Directory("./build/"));
         OutputDirectory = _ctx.MakeAbsolute(_ctx.Directory("./dist/"));
         OutputAppRootDirectory = _ctx.MakeAbsolute(_ctx.Directory("./dist/app"));
         OutputAppDirectory = _ctx.MakeAbsolute(_ctx.Directory("./dist/app/{runtime}"));

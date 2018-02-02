@@ -25,7 +25,7 @@ public class BuildUtils
     public IEnumerable<DirectoryPath> GetDirectoriesToFullClean()
     {
         return Enumerable.Empty<DirectoryPath>()
-            .Concat(_ctx.GetDirectories(options.OutputDirectory.FullPath))
+            .Concat(_ctx.GetDirectories(_options.OutputDirectory.FullPath))
             .Concat(_ctx.GetDirectories("./src/**/bin"))
             .Concat(_ctx.GetDirectories("./src/**/obj"))
             .Concat(_ctx.GetDirectories("./test/**/bin"))

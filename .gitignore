@@ -11,3 +11,7 @@ build/modules/*
 !build/modules/packages.config
 build/tools/*
 !build/tools/packages.config
+
+# Boost
+build/.boost/
+build/boost*.zip

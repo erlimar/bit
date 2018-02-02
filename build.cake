@@ -4,6 +4,7 @@
 // Load scripts
 #load "./build/options.cake"
 #load "./build/utils.cake"
+#load "./build/boost.cake"
 
 var options = new BuildOptions(Context);
 var utils = new BuildUtils(Context, options);
@@ -169,12 +170,15 @@ Task("Default")
 
 Task("Bootstrap")
     .Does(() => {
-        Information("Building system ready!");
+        Information("Setuping building system...");
 
-        foreach(var dir in utils.GetDirectoriesToClean())
-        {
-            Warning(dir);
-        }
+        var boost = new BuildBoost(Context, options);
+        
+        Information("--> Boost...");
+        boost.EnsureSources();
+        Information("--> Boost.OK!");
+
+        Information("Building system ready!");
      } );
 
 RunTarget(options.Target);
