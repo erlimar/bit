@@ -33,6 +33,7 @@ time. Mas fique à vontade para utilizar suas ferramentas preferidas.
 ### Tutoriais
 
 * [Construindo o E5R.Tools.Bit][building]
+* [Construindo o E5R.Tools.Bit.Shell][building-shell]
 * [Configurando um ambiente Visual Studio Code no Windows][configuring-vscode-environment]
 
 > Se quiser pode contribuir criado um guia de como você montou seu ambiente, caso ele
@@ -50,3 +51,4 @@ time. Mas fique à vontade para utilizar suas ferramentas preferidas.
 [contributing]: contributing.md
 [configuring-vscode-environment]: tutorials/configuring-vscode-environment.md
 [building]: tutorials/building.md
+[building-shell]: tutorials/building-shell.md
