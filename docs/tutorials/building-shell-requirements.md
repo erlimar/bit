@@ -1,22 +1,21 @@
-Pré-requisitos paa construir E5R.Tools.Bit.Shell
+Pré-requisitos para construir E5R.Tools.Bit.Shell
 ================================================
 
 Nesse rapidíssimo tutorial vamos mostrar como construir/instalar os pré-requisitos para construção do __E5R.Tools.Bit.Shell__ após
 adquirir o código fonte de algum canal de distribuição.
 
-Este tutorial é complemento do tutorial 
-
 Para uma construção bem sucedida de __E5R.Tools.Bit.Shell__, além dos pré-requisitos já mencionados em ["Construindo o E5R.Tools.Bit.Shell"][building-shell],
-você deve também preparar seu ambiente de projeto com os seguintes componentes:
+você deve também preparar seu ambiente de projeto com os seguintes componentes de terceiro:
 
-* [][]
+* [cURL][libcurl]
 
 ## Instruções para Windows
 
 > __NOTA__: Nos exemplos de execução de comando abaixo, estamos usando a notação do [PowerShell][powershell], mas você pode usar a linha de comando que preferir.
 
 
-### cURL
+### Componente cURL
+[libcurl]: #libcurl
 
 1. Crie o diretório base para `cURL` em `".\build\.curl"` com os subdiretórios
    `source`, `build` e `install` para guardar o código fonte, artefatos de construção
@@ -36,7 +35,14 @@ $ mkdir '.\build\.curl\install'
 
 ```powershell
 $ cd ".\build\.curl\build"
-$ cmake -DCMAKE_USE_WINSSL=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_CURL_EXE=OFF -DCURL_STATICLIB=ON -DHTTP_ONLY=ON -DBUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=..\install -G "NMake Makefiles" ..\source
+$ cmake -DCMAKE_BUILD_TYPE=Release `
+        -DBUILD_CURL_EXE=OFF `
+        -DCURL_STATICLIB=ON `
+        -DHTTP_ONLY=ON `
+        -DCMAKE_USE_WINSSL=ON `
+        -DBUILD_TESTING=OFF `
+        -DCMAKE_INSTALL_PREFIX=..\install `
+        -G "NMake Makefiles" ..\source
 ```
 
 5. Construa `"cURL"`
@@ -54,6 +60,8 @@ $ nmake install
 ```
 
 Agora você já tem o componente __cURL__ configurado em `".\build\.curl\install"`.
+A construção de __E5R.Tools.Bit.Shell__ com _CMake_ usa esse local para encontar os
+cabeçalhos e biblioteca para incorporação ao nosso __"bit"__.
 
 ## Instruções para Linux e macOS
 
