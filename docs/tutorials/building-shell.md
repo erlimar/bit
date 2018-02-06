@@ -20,6 +20,7 @@ Saiba mais sobre a arquitetura da ferramenta em https://github.com/e5r/bit/blob/
 
 * [Visual C++ Build Tools 2015 (ou posterior)][vcpp-buildtools]
 * [CMake 3.6 (ou posterior)][cmake]
+* [Biblioteca cURL][building-shell-requirements]
 
 Antes de executar os passos à seguir, tenha certeza que os comandos abaixo estão
 disponíveis para execução (estejam no `%PATH%` do sistema).
@@ -82,3 +83,4 @@ TODO: ...
 [vcpp-buildtools]: http://landinghub.visualstudio.com/visual-cpp-build-tools
 [cmake]: https://cmake.org/
 [powershell]: https://github.com/PowerShell/PowerShell
+[building-shell-requirements]: building-shell-requirements.md
