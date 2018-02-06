@@ -4,23 +4,16 @@
 #include <iostream>
 #include <string>
 
-#include "bit-shell/config.hpp"
+#include "config.hpp"
 
-using namespace std;
+using namespace E5R::Tools::Bit;
+
+using std::cout;
+using std::endl;
 
 void main()
 {
-    string version;
-
-    version += to_string(BIT_VERSION_MAJOR);
-    version += "." + to_string(BIT_VERSION_MINOR);
-    version += "." + to_string(BIT_VERSION_PATCH);
-
-    if (BIT_VERSION_EXTENSION != "")
-    {
-        version += "-" BIT_VERSION_EXTENSION;
-    }
-
-    std::cout << BIT_PROJECT_NAME
-              << " v" << version << std::endl;
+    cout << Product::Info().name()
+         << " v" << Product::Info().version.semver()
+         << endl;
 }

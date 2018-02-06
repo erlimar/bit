@@ -1,0 +1,86 @@
+// Copyright (c) E5R Development Team. All rights reserved.
+// Licensed under the Apache License, Version 2.0. More license information in LICENSE.txt.
+
+/**
+ * @note Do not change this file manually.
+ *       It is generated automatically by CMake. See the file "config.hpp.in".
+ **/
+#ifndef _BIT_CONFIG_H_
+#define _BIT_CONFIG_H_
+
+#include <string>
+
+#define BIT_ROOT_NAMESPACE_BEGIN namespace E5R { namespace Tools { namespace Bit
+#define BIT_ROOT_NAMESPACE_END }}
+
+BIT_ROOT_NAMESPACE_BEGIN
+{
+    using std::string;
+    using std::to_string;
+
+    class Version
+    {
+    public:
+        unsigned int major()
+        {
+            return @bit_VERSION_MAJOR@;
+        }
+
+        unsigned int minor()
+        {
+            return @bit_VERSION_MINOR@;
+        }
+
+        unsigned int patch()
+        {
+            return @bit_VERSION_PATCH@;
+        }
+
+        string extension()
+        {
+            return "@bit_VERSION_EXTENSION@";
+        }
+
+        string semver()
+        {
+            if ("@bit_VERSION_EXTENSION@" != "")
+            {
+                return "@bit_VERSION_MAJOR@.@bit_VERSION_MINOR@.@bit_VERSION_PATCH@-@bit_VERSION_EXTENSION@";
+            }
+
+            return "@bit_VERSION_MAJOR@.@bit_VERSION_MINOR@.@bit_VERSION_PATCH@";
+        }
+    };
+    
+    class Product
+    {
+    private:
+        Product() = default;
+        ~Product() = default;
+
+        Product(const Product&) = delete;
+        Product(Product&&) = delete;
+        Product& operator=(const Product&) = delete;
+        Product& operator=(Product&&) = delete;
+
+    public:
+        static Product& Info();
+
+        Version version;
+        string name();
+    };
+
+    Product& Product::Info()
+    {
+        static Product p;
+        return p;
+    }
+
+    string Product::name()
+    {
+        return "@bit_PROJECT_NAME@";
+    }
+}
+BIT_ROOT_NAMESPACE_END
+
+#endif // _BIT_CONFIG_H_

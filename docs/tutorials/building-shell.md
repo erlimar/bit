@@ -14,12 +14,62 @@ Saiba mais sobre a arquitetura da ferramenta em https://github.com/e5r/bit/blob/
 
 ## Instruções para Windows
 
+> __NOTA__: Nos exemplos de execução de comando abaixo, estamos usando a notação do PowerShell, mas você pode usar a linha de comando que preferir.
+
 ### Pré-requisitos
 
 * [Visual C++ Build Tools 2015 (ou posterior)][vcpp-buildtools]
 * [CMake 2.8 (ou posterior)][cmake]
 
+Antes de executar os passos á seguir, tenha certeza que os comandos abaixo estão
+disponíveis para execução (estejam no `%PATH%` do sistema).
+
+```powershell
+$ cl /?           # Compilador C/C++
+$ link /?         # Linker C/C++
+$ nmake           # Makefil e
+$ cmake --version # CMake (2.8.3 ou posterior)
+```
+
 ### Passos
+
+1. Crie o diretório para os artefatos da construção e vá para lá.
+   Nós sugerimos um local, mas você tem a liberdade de escolher esse local.
+
+```powershell
+$ mkdir ".\build\shell"
+$ cd ".\build\shell"
+```
+
+2. Gere os artefatos com o _CMake_. Recomendamos aqui o gerador _"NMake Makefiles"_, mas você pode usar o que melhor lhe atender.
+
+```powershell
+$ cmake -G "NMake Makefiles" "..\.."                          # Para modo Release
+$ cmake -DCMAKE_BUILD_TYPE=Debug -G "NMake Makefiles" "..\.." # Para modo Debug
+```
+
+3. Agora é só construir.
+
+```powershell
+$ cmake --build .
+```
+
+Se tudo correu como esperado, seu executável __"bit"__ está disponível em  `".\build\shell\src\E5R.Tools.Bit.Shell\bit.exe"`, veja:
+
+```powershell
+# Lembrando que você já está no diretório ".\build\shell"
+$ ".\src\E5R.Tools.Bit.Shell\bit.exe"
+```
+
+4. E para gerar o pacote de distribuição no formato _Zip_:
+
+```powershell
+$ cpack -G ZIP
+```
+
+E mais uma vez, se tudo correu como esperado, seu pacote zip está disponível em  `".\build\shell\bit-{version}-{arch}.zip"`.
+
+Aqui, `{version}` é a versão da ferramenta, ex: `1.0.0`. E `{arch}` é a arquitetura, ex: `win64`. Logo, você teria um arquivo `".\build\shell\bit-1.0.0-win64.zip"`.
 
 ## Instruções para Linux e macOS
 
