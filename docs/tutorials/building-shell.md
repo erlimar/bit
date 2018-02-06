@@ -4,7 +4,7 @@ Construindo o E5R.Tools.Bit.Shell
 Nesse rapidíssimo tutorial vamos mostrar como construir o __E5R.Tools.Bit.Shell__ após
 adquirir o código fonte de algum canal de distribuição.
 
-O __E5R.Tools.Bit.Shell__ é a camada de _interface_ com o usuário final. Enquanto __E5R.Tools.Bit__ é a ferramenta que executa toda a lógica e é escrita em .NET Core, assim, requer de toda a infraestrutura .NET antes de ser executada pela primeira vez. Em contraste, temos o componente __E5R.Tools.Bit.Shell__, esse é escrito em C++ e tem um tamanho bem menor visto que não requer a estrutura .NET para se executado. Por isso os passos de consrução são ligeiramente diferentes.
+O __E5R.Tools.Bit.Shell__ é a camada de _interface_ com o usuário final. Enquanto __E5R.Tools.Bit__ é a ferramenta que executa toda a lógica e é escrita em .NET Core, assim, requer de toda a infraestrutura .NET antes de ser executada pela primeira vez. Em contraste, temos o componente __E5R.Tools.Bit.Shell__, esse é escrito em C++ e tem um tamanho bem menor visto que não requer a estrutura .NET para ser executado. Por isso os passos de construção são ligeiramente diferentes.
 
 Esse componente é o __"bit"__ que o usuário chama na linha de comando.
 
@@ -14,27 +14,27 @@ Saiba mais sobre a arquitetura da ferramenta em https://github.com/e5r/bit/blob/
 
 ## Instruções para Windows
 
-> __NOTA__: Nos exemplos de execução de comando abaixo, estamos usando a notação do PowerShell, mas você pode usar a linha de comando que preferir.
+> __NOTA__: Nos exemplos de execução de comando abaixo, estamos usando a notação do [PowerShell][powershell], mas você pode usar a linha de comando que preferir.
 
 ### Pré-requisitos
 
 * [Visual C++ Build Tools 2015 (ou posterior)][vcpp-buildtools]
-* [CMake 2.8 (ou posterior)][cmake]
+* [CMake 3.6 (ou posterior)][cmake]
 
-Antes de executar os passos á seguir, tenha certeza que os comandos abaixo estão
+Antes de executar os passos à seguir, tenha certeza que os comandos abaixo estão
 disponíveis para execução (estejam no `%PATH%` do sistema).
 
 ```powershell
 $ cl /?           # Compilador C/C++
 $ link /?         # Linker C/C++
-$ nmake           # Makefil e
-$ cmake --version # CMake (2.8.3 ou posterior)
+$ nmake           # Makefile
+$ cmake --version # CMake (3.6.3 ou posterior)
 ```
 
 ### Passos
 
 1. Crie o diretório para os artefatos da construção e vá para lá.
-   Nós sugerimos um local, mas você tem a liberdade de escolher esse local.
+   Nós sugerimos um local, mas você tem a liberdade de escolher o que preferir.
 
 ```powershell
 $ mkdir ".\build\shell"
@@ -44,8 +44,11 @@ $ cd ".\build\shell"
 2. Gere os artefatos com o _CMake_. Recomendamos aqui o gerador _"NMake Makefiles"_, mas você pode usar o que melhor lhe atender.
 
 ```powershell
-$ cmake -G "NMake Makefiles" "..\.."                          # Para modo Release
-$ cmake -DCMAKE_BUILD_TYPE=Debug -G "NMake Makefiles" "..\.." # Para modo Debug
+# Para modo Release
+$ cmake -G "NMake Makefiles" "..\.."
+
+# ou para modo Debug
+$ cmake -DCMAKE_BUILD_TYPE=Debug -G "NMake Makefiles" "..\.."
 ```
 
 3. Agora é só construir.
@@ -78,3 +81,4 @@ TODO: ...
 <!-- Links -->
 [vcpp-buildtools]: http://landinghub.visualstudio.com/visual-cpp-build-tools
 [cmake]: https://cmake.org/
+[powershell]: https://github.com/PowerShell/PowerShell
