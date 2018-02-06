@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-#include "config.hpp"
+#include "e5r/tools/bit.hpp"
 
 using namespace E5R::Tools;
 

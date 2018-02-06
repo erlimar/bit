@@ -3,8 +3,8 @@
 
 # Scaffolding
 configure_file(
-    "${bit_SOURCE_DIR}/include/config.hpp.in"
-    "${bit_SOURCE_DIR}/include/config.hpp"
+    "${bit_SOURCE_DIR}/include/e5r/tools/bit.hpp.in"
+    "${bit_SOURCE_DIR}/include/e5r/tools/bit.hpp"
 )
 
 include_directories("${bit_SOURCE_DIR}/include")

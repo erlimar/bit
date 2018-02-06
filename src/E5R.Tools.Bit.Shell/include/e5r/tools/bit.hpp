@@ -5,13 +5,13 @@
  * @note Do not change this file manually.
  *       It is generated automatically by CMake. See the file "config.hpp.in".
  **/
-#ifndef _BIT_CONFIG_H_
-#define _BIT_CONFIG_H_
-
-#include <string>
+#ifndef _BIT_H_
+#define _BIT_H_
 
 #define BIT_ROOT_NAMESPACE_BEGIN namespace E5R { namespace Tools { namespace Bit
 #define BIT_ROOT_NAMESPACE_END }}
+
+#include <string>
 
 BIT_ROOT_NAMESPACE_BEGIN
 {
@@ -83,4 +83,4 @@ BIT_ROOT_NAMESPACE_BEGIN
 }
 BIT_ROOT_NAMESPACE_END
 
-#endif // _BIT_CONFIG_H_
+#endif // _BIT_H_
