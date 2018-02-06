@@ -18,7 +18,7 @@ Abaixo nós temos algumas notas sobre cada uma das formas apresentadas.
 ## Contribuindo
 
 A primeira coisa a ser feita, por qualquer que deseje contribuir com este projeto,
-é ler e aceitar os termos da licença disponível em [LICENSE][license], que no nosso
+é ler e aceitar os termos da licença disponível em [LICENSE.txt][license], que no nosso
 caso é a [Apache License, Version 2.0][license-apache2].
 
 ### Divulgando a ferramenta
@@ -110,7 +110,7 @@ conosco em um dos canais abaixo:
 
 <!-- Links -->
 
-[license]: ../LICENSE
+[license]: ../LICENSE.txt
 [license-apache2]: http://www.apache.org/licenses/LICENSE-2.0
 [project-home]: https://github.com/e5r/bit
 [developer-guide]: developer-guide.md
