@@ -28,7 +28,26 @@ set(CPACK_PACKAGE_VERSION_MAJOR ${bit_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${bit_VERSION_MINOR})
 set(CPACK_PACKAGE_VERSION_PATCH ${bit_VERSION_PATCH})
 
-# Components
+#set(LIBCURL_PATH "${CMAKE_CURRENT_SOURCE_DIR}/build/.curl/install")
+#set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/build/.curl/install/CMake/libcurl-target-release.cmake")
+#libcurl-target.cmake
+#curl-config-version.cmake
+#curl-config.cmake
+message("${CMAKE_CURRENT_SOURCE_DIR}/build/.curl/install/CMake")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/build/.curl/install/CMake")
+
+include(FindCURL)
+find_package(CURL)
+
+if(CURL_FOUND)
+  message(STATUS "Found CURL version: ${CURL_VERSION_STRING}")
+  message(STATUS "Using CURL include dir(s): ${CURL_INCLUDE_DIRS}")
+  message(STATUS "Using CURL lib(s): ${CURL_LIBRARIES}")
+else()
+  message(FATAL_ERROR "Could not find CURL")
+endif()
+
+# Target components
 add_subdirectory(src/E5R.Tools.Bit.Shell)
 
 include(CPack)

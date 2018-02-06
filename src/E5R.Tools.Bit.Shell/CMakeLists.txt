@@ -13,6 +13,7 @@ set(SRCS
     main.cpp
 )
 
-add_executable(bit ${SRCS})
+add_executable(${PROJECT_NAME} ${SRCS})
+target_link_libraries(${PROJECT_NAME} ${CURL_LIBRARIES})
 
 install(TARGETS bit DESTINATION /)
