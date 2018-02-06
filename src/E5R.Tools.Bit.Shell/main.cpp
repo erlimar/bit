@@ -6,14 +6,12 @@
 
 #include "config.hpp"
 
-using namespace E5R::Tools::Bit;
-
-using std::cout;
-using std::endl;
+using namespace E5R::Tools;
 
 void main()
 {
-    cout << Product::Info().name()
-         << " v" << Product::Info().version.semver()
-         << endl;
+    std::cout
+        << Bit::Product::Info().name()
+        << " v" << Bit::Product::Info().version.semver()
+        << std::endl;
 }
