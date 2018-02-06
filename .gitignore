@@ -12,8 +12,11 @@ build/modules/*
 build/tools/*
 !build/tools/packages.config
 
-# CMake
+# CMake component [E5R.Tools.Bit.Shell]
 build/shell
 
 # Scaffoldings
 src/E5R.Tools.Bit.Shell/include/e5r/tools/bit.hpp
+
+# CMake third party component
+build/.curl

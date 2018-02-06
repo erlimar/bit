@@ -22,7 +22,7 @@ set (bit_VERSION_PATCH 0)
 set (bit_VERSION_EXTENSION "dev")
 
 # CPack configuration
-include(InstallRequiredSystemLibraries)
+#include(InstallRequiredSystemLibraries)
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE.txt")
 set(CPACK_PACKAGE_VERSION_MAJOR ${bit_VERSION_MAJOR})
 set(CPACK_PACKAGE_VERSION_MINOR ${bit_VERSION_MINOR})
