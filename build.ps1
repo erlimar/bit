@@ -64,6 +64,28 @@ Param(
     [string[]]$ScriptArgs
 )
 
+#HACK! Bugfix to download HTTPS Url's
+# https://stackoverflow.com/questions/11696944/powershell-v3-invoke-webrequest-https-error
+function EnsureHttpsDownloads
+{
+	Add-Type @"
+
+	using System.Net;
+	using System.Security.Cryptography.X509Certificates;
+	public class TrustAllCertsPolicy : ICertificatePolicy {
+		public bool CheckValidationResult(
+			ServicePoint srvPoint, X509Certificate certificate,
+			WebRequest request, int certificateProblem) {
+			return true;
+		}
+	}
+"@
+	[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]'Ssl3,Tls,Tls11,Tls12'
+	[System.Net.ServicePointManager]::CertificatePolicy = New-Object TrustAllCertsPolicy
+}
+
+EnsureHttpsDownloads
+
 #Default DotNet SDK minimal version 1.1.4
 $SDK_VERSION_CAKE = "1.0.4"
 $SDK_VERSION_GLOBAL = $SDK_VERSION_CAKE
