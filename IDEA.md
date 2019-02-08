@@ -216,7 +216,7 @@ uma forma de atender a premissa 1 e 4 (mínimo e auto-suficiente), porque as
 tarefas de build devem ser bastante específicas e executadas o mais rápido
 possível, e se não puder ser codificada em um comando, talvez haja uma
 responsabilidade demasiada sobre o mesmo. Nesse momento já podemos enxergar essa
-limitação de contexto como um ponto "positivo" e não mais um "contra", porque limitamos a construção de comandos curtos.
+limitação de contexto como um ponto "positivo" e não mais um "contra", porque limitamos à construção de comandos curtos.
 			
 Os comandos podem chamar subcomandos, que na verdade são somente outros comandos
 conhecidos que são delegados por um comando e não diretamente pelo host (na
