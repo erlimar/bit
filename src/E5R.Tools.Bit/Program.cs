@@ -68,7 +68,12 @@ namespace E5R.Tools.Bit
                 }
             }
 
-            // TODO: Print messages
+            if (!string.IsNullOrEmpty(result.ResultMessage))
+            {
+                // TODO: Use BitEngine
+                Console.WriteLine(result.ResultMessage);
+            }
+            
             return result.ResultCode;
         }
     }
