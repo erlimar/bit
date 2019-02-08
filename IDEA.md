@@ -45,6 +45,8 @@ construção de softwares nessas condições.
 
 # COMPONENTES
 
+![](bit_proxy_idea.png)
+
 ## SINOPSE
 
 Instalador, Executável UI, Executável Host e Comando.
