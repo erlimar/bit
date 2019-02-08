@@ -72,7 +72,7 @@ sugestão de melhoria através de uma `issue`.
 
 Caso você não queira ou não tenha tempo de procurar por defeitos, ou analisar a ferramenta
 para sugerir novas funcionalidades, você pode ao menos baixar o projeto em sua máquina e
-executar os testes automatizados. Dessa forma nós podemos garantir que a feframenta está
+executar os testes automatizados. Dessa forma nós podemos garantir que a ferramenta está
 funcionando adequadamente em uma maior variedade de configurações de hosts. Aí, se você
 encontrar um problema que os testes relatem, você pode nos informar isso numa `issue`.
 
